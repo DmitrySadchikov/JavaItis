@@ -18,9 +18,7 @@ public class UsersDaoFileBasedImplTest {
 
     @Before
     public void setUp() throws Exception {
-        usersDao = new UsersDaoFileBasedImpl("C:\\Users\\" +
-                "admin.WIN-IPM3OA3VQNQ\\Desktop" +
-                "\\JAVA\\JavaItis\\SimpleEnterprise\\users.txt");
+        usersDao = new UsersDaoFileBasedImpl("users.txt");
     }
 
     @Test
