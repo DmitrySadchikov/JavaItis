@@ -5,9 +5,6 @@ import ru.itis.models.User;
 
 import java.util.List;
 
-/**
- * Created by admin on 06.10.2016.
- */
 public class SimpleUsersServiceImpl implements SimpleUsersService {
 
     private UsersDao usersDao;

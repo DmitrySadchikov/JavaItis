@@ -9,9 +9,6 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by admin on 06.10.2016.
- */
 public class UsersDaoFileBasedImplTest {
 
     private UsersDaoFileBasedImpl usersDao;
@@ -24,6 +21,12 @@ public class UsersDaoFileBasedImplTest {
     @Test
     public void getAll() throws Exception {
         List<User> registeredUsers = usersDao.getAll();
+    }
+
+
+    @Test
+    public void getUser() throws Exception {
+        User user = usersDao.get(1);
         int i = 0;
     }
 
