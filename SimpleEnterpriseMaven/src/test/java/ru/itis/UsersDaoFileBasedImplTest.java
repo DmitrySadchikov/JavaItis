@@ -15,7 +15,8 @@ public class UsersDaoFileBasedImplTest {
 
     @Before
     public void setUp() throws Exception {
-        usersDao = new UsersDaoFileBasedImpl("users.txt");
+        usersDao = new UsersDaoFileBasedImpl();
+
     }
 
     @Test
@@ -27,6 +28,14 @@ public class UsersDaoFileBasedImplTest {
     @Test
     public void getUser() throws Exception {
         User user = usersDao.get(1);
+        int i = 0;
+    }
+
+    @Test
+    public void saveUser() throws Exception {
+        User user = new User(5, "Dmitry", "qwerty111", 21);
+        usersDao.save(user);
+        User user2 = usersDao.get(5);
         int i = 0;
     }
 

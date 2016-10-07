@@ -9,7 +9,7 @@ public class SimpleUsersServiceImpl implements SimpleUsersService {
 
     private UsersDao usersDao;
 
-    public SimpleUsersServiceImpl(UsersDao usersDao) {
+    public void setUsersDao(UsersDao usersDao) {
         this.usersDao = usersDao;
     }
 

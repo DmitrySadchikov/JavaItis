@@ -7,6 +7,8 @@ import javax.jws.soap.SOAPBinding;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.util.jar.Pack200;
 
 public class UsersDaoFileBasedImpl implements UsersDao {
 
@@ -14,13 +16,19 @@ public class UsersDaoFileBasedImpl implements UsersDao {
     private RandomAccessFile fileReader;
     // private BufferedReader fileReader;
 
-    public UsersDaoFileBasedImpl(String fileName) {
+    public UsersDaoFileBasedImpl() {
         try {
+            Properties properties = new Properties();
+            properties.load(new FileInputStream("/home/dmitry/Desktop/JavaItis" +
+                    "/SimpleEnterpriseMaven/src/resources/files.properties"));
+            String fileName = properties.getProperty("userspath");
             this.filename = fileName;
             fileReader = new RandomAccessFile(new File(this.filename), "rw");
             //fileReader = new BufferedReader(new FileReader(fileName));
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
         }
     }
 
@@ -49,19 +57,26 @@ public class UsersDaoFileBasedImpl implements UsersDao {
             if(user.getId() == userId)
                 return user;
         }
-        new Exception("User not found!");
+        System.out.println("User not found!");
         return null;
     }
 
     @Override
     public void save(User user) {
+        List<User> users = this.getAll();
+        for(User user1 : users) {
+            if(user1.getId() == user.getId()) {
+                System.out.println("A user already exists");
+                return;
+            }
+        }
         try {
             fileReader.seek(fileReader.length());
             fileReader.writeBytes("\n" + user.getId() + " " + user.getName()
                     + " " + user.getPassword() + " " + user.getAge());
             fileReader.seek(0);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException(e);
         }
     }
 
