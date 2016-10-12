@@ -3,6 +3,7 @@ package ru.itis;
 import ru.itis.dao.CarsDao;
 import ru.itis.dao.CarsDaoJdbcImpl;
 import ru.itis.dao.UsersDao;
+import ru.itis.dao.UsersDaoJdbcImpl;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,22 +17,23 @@ public class DaoSupportFactory {
     private static DaoSupportFactory instance;
 
     private Properties properties;
-    private UsersDao usersDao;
-    private CarsDao carsDao;
+    //private UsersDao usersDao;
+    //private CarsDao carsDao;
     private Connection connection;
 
 
     private DaoSupportFactory() {
         try {
-            properties = new Properties();
+            /*properties = new Properties();
             properties.load(new FileInputStream("/home/dmitry/Desktop/JavaItis/JdbsDemo" +
                     "/src/main/resources/dao.properties"));
             String usersDaoClass = properties.getProperty("usersdao.class");
             String carsDaoClass = properties.getProperty("carsdao.class");
 
-            this.usersDao = (UsersDao)Class.forName(usersDaoClass).newInstance();
-            this.carsDao = (CarsDaoJdbcImpl)Class.forName(carsDaoClass).newInstance();
+            this.usersDao = (UsersDaoJdbcImpl)Class.forName(usersDaoClass).newInstance();
+            this.carsDao = (CarsDaoJdbcImpl)Class.forName(carsDaoClass).newInstance();*/
 
+            properties = new Properties();
             properties.load(new FileInputStream("/home/dmitry/Desktop/JavaItis/JdbsDemo" +
                     "/src/main/resources/connection.properties"));
             this.connection = null;
@@ -46,10 +48,10 @@ public class DaoSupportFactory {
             throw new IllegalArgumentException(e);
         } catch (ClassNotFoundException e) {
             throw new IllegalArgumentException(e);
-        } catch (IllegalAccessException e) {
+        /*} catch (IllegalAccessException e) {
             throw new IllegalArgumentException(e);
         } catch (InstantiationException e) {
-            throw new IllegalArgumentException(e);
+            throw new IllegalArgumentException(e);*/
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);
         }
@@ -63,13 +65,13 @@ public class DaoSupportFactory {
         return instance;
     }
 
-    public UsersDao getUsersDao() {
+    /*public UsersDao getUsersDao() {
         return usersDao;
     }
 
     public CarsDao getCarsDao() {
         return carsDao;
-    }
+    }*/
 
     public Connection getConnection() {
         return connection;

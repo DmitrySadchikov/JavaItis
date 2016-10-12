@@ -15,40 +15,72 @@ public class UsersDaoJdbcImpl implements UsersDao {
     private Connection connection;
 
     public UsersDaoJdbcImpl() {
-        connection = DaoSupportFactory.getInstance().getConnection();
+        this.connection = DaoSupportFactory.getInstance().getConnection();
     }
 
     public List<User> getAll() {
         try {
             List<User> users = new ArrayList<User>();
-            
+            Statement statement = connection.createStatement();
+
             ResultSet resultSet = statement.executeQuery("SELECT * FROM car_users");
             while (resultSet.next()) {
-                User u = new User(resultSet.getString("u_name"), resultSet.getInt("age"),
+                User u = new User(resultSet.getInt("id"), resultSet.getString("u_name"), resultSet.getInt("age"),
                         resultSet.getString("u_password"), resultSet.getString("city"));
                 users.add(u);
             }
+            return users;
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+
+    public User find(int id) {
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM car_users WHERE id=" + id);
+            resultSet.next();
+            User u = new User(resultSet.getInt("id"), resultSet.getString("u_name"), resultSet.getInt("age"),
+                    resultSet.getString("u_password"), resultSet.getString("city"));
+            return u;
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    public void delete(int id) {
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeQuery("DELETE * FROM car_users WHERE id=" + id);
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    public void update(User user) {
+
+        // описать случай, когда нет такого пользователя
+
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeQuery("UPDATE car_users SET u_name=" + user.getName()
+                    + ", age=" + user.getAge() + ", u_password=" + user.getPassword()
+                    + ", city=" + user.getCity() + " WHERE id=" + user.getId());
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);
         }
 
-        return null;
     }
 
-
-    public void find(int id) {
-
-    }
-
-    public void delete(int id) {
-
-    }
-
-    public void update(User car) {
-
-    }
-
-    public void add(User car) {
-
+    public void add(User user) {
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeQuery("INSERT INTO car_users (u_name, age, u_password, city)" +
+                    " VALUES (" + user.getName() + ", " + user.getAge() + ", "
+                    + user.getPassword() + ", " + user.getCity() + ");");
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 }

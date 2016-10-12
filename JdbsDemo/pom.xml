@@ -7,12 +7,11 @@
     <groupId>ru.itis</groupId>
     <artifactId>jdbc-demo</artifactId>
     <version>0.1</version>
-
-    <dependency>
-        <groupId>postgresql</groupId>
-        <artifactId>postgresql</artifactId>
-        <version>9.4.1208-jdbc42-atlassian-hosted</version>
-    </dependency>
-
-
+    <dependencies>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.4-1200-jdbc41</version>
+        </dependency>
+    </dependencies>
 </project>
