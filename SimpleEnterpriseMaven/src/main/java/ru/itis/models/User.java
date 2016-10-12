@@ -1,10 +1,14 @@
 package ru.itis.models;
 
+import java.util.List;
+
 public class User {
     private String name;
     private String password;
     private int age;
     private int id;
+
+    private List<Car> cars;
 
     public User(int id, String name, String password, int age) {
         this.name = name;

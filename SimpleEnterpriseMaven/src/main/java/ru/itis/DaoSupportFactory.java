@@ -5,7 +5,6 @@ import ru.itis.service.SimpleUsersService;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.util.Properties;
 
 public class DaoSupportFactory {
