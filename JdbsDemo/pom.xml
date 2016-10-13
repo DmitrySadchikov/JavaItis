@@ -7,6 +7,7 @@
     <groupId>ru.itis</groupId>
     <artifactId>jdbc-demo</artifactId>
     <version>0.1</version>
+    <!-->
     <dependencies>
         <dependency>
             <groupId>postgresql</groupId>
@@ -14,4 +15,5 @@
             <version>9.4-1200-jdbc41</version>
         </dependency>
     </dependencies>
+    <!-->
 </project>

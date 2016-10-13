@@ -1,6 +1,5 @@
 package ru.itis.dao;
 
-import ru.itis.DaoSupportFactory;
 import ru.itis.models.User;
 
 import java.sql.Connection;
@@ -14,8 +13,8 @@ public class UsersDaoJdbcImpl implements UsersDao {
 
     private Connection connection;
 
-    public UsersDaoJdbcImpl() {
-        this.connection = DaoSupportFactory.getInstance().getConnection();
+    public UsersDaoJdbcImpl(Connection connection) {
+        this.connection =connection;
     }
 
     public List<User> getAll() {

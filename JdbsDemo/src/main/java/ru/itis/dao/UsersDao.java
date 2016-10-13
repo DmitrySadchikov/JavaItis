@@ -8,6 +8,6 @@ public interface UsersDao {
     User find(int id);
     List<User> getAll();
     void delete(int id);
-    void update(User car);
-    void add(User car);
+    void update(User user);
+    void add(User user);
 }

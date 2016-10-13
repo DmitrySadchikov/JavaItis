@@ -1,6 +1,5 @@
 package ru.itis.dao;
 
-import ru.itis.DaoSupportFactory;
 import ru.itis.models.Car;
 
 import java.sql.Connection;
@@ -14,8 +13,8 @@ public class CarsDaoJdbcImpl implements CarsDao {
 
     private Connection connection;
 
-    public CarsDaoJdbcImpl() {
-        this.connection = DaoSupportFactory.getInstance().getConnection();
+    public CarsDaoJdbcImpl(Connection connection) {
+        this.connection = connection;
     }
 
     public List<Car> getAll() {
