@@ -2,16 +2,26 @@ package ru.itis.dao;
 
 import ru.itis.models.User;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UsersDaoJdbcImpl implements UsersDao {
 
     private Connection connection;
+
+    //language=SQL
+    private static final String SQL_ALL_USERS = "SELECT * FROM car_users";
+    //language=SQL
+    private static final String SQL_FIND_USERS = "SELECT * FROM car_users WHERE id = ?";
+    //language=SQL
+    private static final String SQL_DELETE_USERS = "DELETE FROM car_users WHERE id = ?";
+    //language=SQL
+    private static final String SQL_UPDATE_USERS = "UPDATE car_users SET u_name = ?, age = ?, u_password = ?, "
+            + ", city = ? WHERE id = ?;";
+    //language=SQL
+    private static final String SQL_ADD_USERS = "INSERT INTO car_users (u_name, age, u_password, city)"
+            + " VALUES (?, ?, ?, ?);";
 
     public UsersDaoJdbcImpl(Connection connection) {
         this.connection =connection;
@@ -22,7 +32,7 @@ public class UsersDaoJdbcImpl implements UsersDao {
             List<User> users = new ArrayList<User>();
             Statement statement = connection.createStatement();
 
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM car_users");
+            ResultSet resultSet = statement.executeQuery(SQL_ALL_USERS);
             while (resultSet.next()) {
                 User u = new User(resultSet.getInt("id"), resultSet.getString("u_name"), resultSet.getInt("age"),
                         resultSet.getString("u_password"), resultSet.getString("city"));
@@ -37,8 +47,9 @@ public class UsersDaoJdbcImpl implements UsersDao {
 
     public User find(int id) {
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM car_users WHERE id=" + id);
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_USERS);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             User u = new User(resultSet.getInt("id"), resultSet.getString("u_name"), resultSet.getInt("age"),
                     resultSet.getString("u_password"), resultSet.getString("city"));
@@ -50,8 +61,9 @@ public class UsersDaoJdbcImpl implements UsersDao {
 
     public void delete(int id) {
         try {
-            Statement statement = connection.createStatement();
-            statement.executeQuery("DELETE * FROM car_users WHERE id=" + id);
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_USERS);
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);
         }
@@ -59,13 +71,14 @@ public class UsersDaoJdbcImpl implements UsersDao {
 
     public void update(User user) {
 
-        // описать случай, когда нет такого пользователя
-
         try {
-            Statement statement = connection.createStatement();
-            statement.executeQuery("UPDATE car_users SET u_name=" + user.getName()
-                    + ", age=" + user.getAge() + ", u_password=" + user.getPassword()
-                    + ", city=" + user.getCity() + " WHERE id=" + user.getId());
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USERS);
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setInt(2, user.getAge());
+            preparedStatement.setString(3, user.getPassword());
+            preparedStatement.setString(4, user.getCity());
+            preparedStatement.setInt(5, user.getId());
+            preparedStatement.execute();
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);
         }
@@ -74,10 +87,12 @@ public class UsersDaoJdbcImpl implements UsersDao {
 
     public void add(User user) {
         try {
-            Statement statement = connection.createStatement();
-            statement.executeQuery("INSERT INTO car_users (u_name, age, u_password, city)" +
-                    " VALUES (" + user.getName() + ", " + user.getAge() + ", "
-                    + user.getPassword() + ", " + user.getCity() + ");");
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD_USERS);
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setInt(2, user.getAge());
+            preparedStatement.setString(3, user.getPassword());
+            preparedStatement.setString(4, user.getCity());
+            preparedStatement.execute();
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);
         }

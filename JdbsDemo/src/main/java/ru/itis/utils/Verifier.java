@@ -15,11 +15,13 @@ public class Verifier {
         connection = ConnectionFactory.getInstance().getConnection();
     }
     // language=SQL
-    private static final String SQL_FIND_OWNER = "SELECT * FROM car_users WHERE id = ?;";
+    private static final String SQL_FIND_USER = "SELECT * FROM car_users WHERE id = ?;";
+    // language=SQL
+    private static final String SQL_FIND_CAR = "SELECT * FROM cars WHERE id = ?;";
 
     public static void verifyUserExist(int userId) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_OWNER);
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_USER);
             preparedStatement.setInt(1, userId);
 
             ResultSet result = preparedStatement.executeQuery();
@@ -29,6 +31,21 @@ public class Verifier {
             }
         } catch (SQLException e) {
             throw new IllegalStateException(e);
+        }
+    }
+
+    public static void verifyCarExist(int carId) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_CAR);
+            preparedStatement.setInt(1, carId);
+
+            ResultSet result = preparedStatement.executeQuery();
+
+            if(!result.next()) {
+                throw new IllegalArgumentException("CAR_NOT_FOUND");
+            }
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
         }
     }
 

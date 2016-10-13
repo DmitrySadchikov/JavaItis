@@ -58,7 +58,6 @@ public class CarsDaoJdbcImpl implements CarsDao {
     }
 
     public void update(Car car) {
-        // описать случай, когда нет такой машины
 
         try {
             Statement statement = connection.createStatement();
