@@ -15,6 +15,13 @@ public class User {
         this.city = city;
     }
 
+    public User(String name, int age, String password, String city) {
+        this.name = name;
+        this.age = age;
+        this.password = password;
+        this.city = city;
+    }
+
     public int getId() {
         return id;
     }
@@ -34,4 +41,5 @@ public class User {
     public String getCity() {
         return city;
     }
+
 }

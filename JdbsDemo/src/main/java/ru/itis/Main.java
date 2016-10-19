@@ -11,8 +11,9 @@ public class Main {
     public static void main(String[] args) {
         UserService userService = ServiceFactory.getInstance().getUserService();
 
-        //userService.addUser(new User(30, "Николай", 30, "qwerty934", "Псков"));
-        //userService.deleteUser(13);
+        //userService.addUser(new User("Николай", 30, "qwerty934", "Псков"));
+        //userService.deleteUser(15);
+
 
         User foundUser = userService.findUserById(5);
         System.out.println("Found user: ");
