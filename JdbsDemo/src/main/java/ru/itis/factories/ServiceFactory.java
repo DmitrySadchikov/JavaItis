@@ -1,7 +1,6 @@
 package ru.itis.factories;
 
 import ru.itis.dao.UsersDao;
-import ru.itis.models.User;
 import ru.itis.services.UserService;
 
 import java.io.FileInputStream;

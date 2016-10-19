@@ -42,4 +42,8 @@ public class User {
         return city;
     }
 
+    @Override
+    public String toString() {
+        return this.getName() + this.getAge() + this.getCity();
+    }
 }
