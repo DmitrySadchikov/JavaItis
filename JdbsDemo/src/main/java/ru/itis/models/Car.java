@@ -1,5 +1,7 @@
 package ru.itis.models;
 
+import com.google.common.base.MoreObjects;
+
 public class Car {
     private int id;
     private String make;
@@ -27,5 +29,14 @@ public class Car {
 
     public int getPower() {
         return power;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("Make", this.getMake())
+                .add("Power", this.getPower())
+                .add("Mileage", this.getMileage())
+                .toString();
     }
 }
