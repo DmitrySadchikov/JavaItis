@@ -26,7 +26,6 @@ public class UsersServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("text/html; charset=UTF-8");
 
-        //userService = ServiceFactory.getInstance().getUserService();
         List<User> users = userService.getAll();
         try {
             PrintWriter out = response.getWriter();
@@ -37,7 +36,5 @@ public class UsersServlet extends HttpServlet {
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
-
-
     }
 }

@@ -37,9 +37,6 @@ public class DaoFactory {
             this.usersDao = (UsersDao) constructorUser.newInstance(ConnectionFactory.getInstance().getConnection());
             this.carsDao = (CarsDao) constructorCar.newInstance(ConnectionFactory.getInstance().getConnection());
 
-            //this.usersDao = (UsersDaoJdbcImpl)Class.forName(usersDaoClass).newInstance();
-            //this.carsDao = (CarsDaoJdbcImpl)Class.forName(carsDaoClass).newInstance();
-
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         } catch (ClassNotFoundException e) {
