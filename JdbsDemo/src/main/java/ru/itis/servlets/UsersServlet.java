@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
+
+import static java.lang.Integer.parseInt;
 
 public class UsersServlet extends HttpServlet {
 
@@ -33,6 +36,24 @@ public class UsersServlet extends HttpServlet {
         } catch (ServletException e) {
             throw new IllegalArgumentException(e);
         } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+
+        try {
+            req.setCharacterEncoding("UTF-8");
+
+            String name = req.getParameter("username");
+            String password = req.getParameter("password");
+            Integer age = parseInt(req.getParameter("age"));
+            String city = req.getParameter("city");
+
+            userService.addUser(new User(name, age, password, city));
+            doGet(req, resp);
+        } catch (UnsupportedEncodingException e) {
             throw new IllegalArgumentException(e);
         }
     }

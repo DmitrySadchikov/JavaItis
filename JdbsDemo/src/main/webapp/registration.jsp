@@ -8,7 +8,7 @@
 <h1>
     Registration
 </h1>
-<form action="registration" method="post">
+<form action="users" method="post">
     Name: <input type="text" name="username">
     Password: <input type="password" name="password">
     <br>

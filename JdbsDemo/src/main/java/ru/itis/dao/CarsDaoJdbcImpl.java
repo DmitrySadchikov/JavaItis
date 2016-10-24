@@ -17,10 +17,10 @@ public class CarsDaoJdbcImpl implements CarsDao {
     //language=SQL
     private static final String SQL_DELETE_CARS = "DELETE FROM cars WHERE id = ?";
     //language=SQL
-    private static final String SQL_UPDATE_CARS = "UPDATE cars SET car_make = ?, " +
+    private static final String SQL_UPDATE_CARS = "UPDATE cars SET make = ?, " +
             "mileage = ?, power = ?, WHERE id = ?;";
     //language=SQL
-    private static final String SQL_ADD_CARS = "INSERT INTO cars (car_make, mileage, power)"
+    private static final String SQL_ADD_CARS = "INSERT INTO cars (make, mileage, power)"
             + " VALUES (?, ?, ?);";
 
     public CarsDaoJdbcImpl(Connection connection) {

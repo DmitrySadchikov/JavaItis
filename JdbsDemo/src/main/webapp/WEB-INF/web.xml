@@ -15,4 +15,14 @@
         <url-pattern>/registration</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UsersServlet</servlet-name>
+        <servlet-class>ru.itis.servlets.UsersServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UsersServlet</servlet-name>
+        <url-pattern>/users</url-pattern>
+    </servlet-mapping>
+
 </web-app>

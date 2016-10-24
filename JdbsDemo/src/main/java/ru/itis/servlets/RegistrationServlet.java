@@ -1,7 +1,6 @@
 package ru.itis.servlets;
 
 import ru.itis.factories.ServiceFactory;
-import ru.itis.models.User;
 import ru.itis.services.UserService;
 
 import javax.servlet.ServletException;
@@ -9,9 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
-import static java.lang.Integer.parseInt;
 
 public class RegistrationServlet extends HttpServlet{
 
@@ -40,7 +36,7 @@ public class RegistrationServlet extends HttpServlet{
 
 
 
-    @Override
+    /*@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
 
         try {
@@ -55,8 +51,7 @@ public class RegistrationServlet extends HttpServlet{
         } catch (UnsupportedEncodingException e) {
             throw new IllegalArgumentException(e);
         }
-
-    }
+    }*/
 }
 
 

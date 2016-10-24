@@ -17,11 +17,5 @@
             </tr>
         </c:forEach>
     </table>
-
-    <form action="identification" method="post" enctype="multipart/form-data">
-        User Name: <input type="text" name="realname">
-        Password: <input type="password" name="mypassword">
-        <input type="submit" value="Identification">
-    </form>
 </body>
 </html>
