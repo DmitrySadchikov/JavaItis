@@ -6,13 +6,14 @@ import ru.itis.services.CarService;
 import ru.itis.services.UserService;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-public class CarServlet extends HttpServlet {
+public class AddCarServlet extends HttpServlet {
 
     private CarService carService;
     private UserService userService;
@@ -46,21 +47,30 @@ public class CarServlet extends HttpServlet {
             Integer power = Integer.parseInt(req.getParameter("power"));
             String color = req.getParameter("color");
 
-            String token = req.getCookies()[1].getValue();
-            int id_user = userService.findUserByToken(token);
+            Cookie[] cookies = req.getCookies();
+            if(cookies != null) {
+                for(Cookie cookie : cookies) {
+                    if(cookie.getName().equals("token")) {
+                        String token = cookie.getValue();
+                        int id_user = userService.findIdByToken(token);
 
-            carService.addCar(new Car.Builder()
-                    .make(make)
-                    .power(power)
-                    .color(color)
-                    .id_user(id_user)
-                    .build());
+                        carService.addCar(new Car.Builder()
+                                .make(make)
+                                .power(power)
+                                .color(color)
+                                .id_user(id_user)
+                                .build());
 
-            resp.sendRedirect("/profile");
+                        getServletContext().getRequestDispatcher("/jsp/profile.jsp").forward(req, resp);
+                    }
+                }
+            }
 
         } catch (UnsupportedEncodingException e) {
             throw new IllegalArgumentException(e);
         } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        } catch (ServletException e) {
             throw new IllegalArgumentException(e);
         }
     }

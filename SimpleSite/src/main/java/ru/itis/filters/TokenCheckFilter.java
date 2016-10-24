@@ -1,6 +1,7 @@
 package ru.itis.filters;
 
 import javax.servlet.*;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -21,9 +22,18 @@ public class TokenCheckFilter implements Filter {
                     || path.equals("/registration") || path.equals("/favicon.ico")) {
                 filterChain.doFilter(servletRequest, servletResponse);
             } else {
-                String token = ((HttpServletRequest)servletRequest).getCookies()[1].getValue();
-                verifyUserExistByToken(token);
-                filterChain.doFilter(servletRequest, servletResponse);
+                Cookie[] cookies = ((HttpServletRequest)servletRequest).getCookies();
+                if(cookies != null) {
+                    for(Cookie cookie : cookies) {
+                        if(cookie.getName().equals("token")) {
+                            String token = cookie.getValue();
+                            verifyUserExistByToken(token);
+                            filterChain.doFilter(servletRequest, servletResponse);
+                        }
+                    }
+                }
+                (servletRequest).setAttribute("error", "Session error. Login again");
+                ((HttpServletResponse) servletResponse).sendRedirect("/home");
             }
         } catch (IllegalArgumentException e) {
             (servletRequest).setAttribute("error", "Session error. Login again");

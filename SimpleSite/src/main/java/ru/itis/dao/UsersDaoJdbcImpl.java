@@ -28,7 +28,9 @@ public class UsersDaoJdbcImpl implements UsersDao {
     //language=SQL
     private static final String SQL_SET_TOKEN = "UPDATE car_users SET token = ? WHERE login = ?";
     //language=SQL
-    private static final String SQL_FIND_TOKEN = "SELECT id FROM car_users WHERE token = ?";
+    private static final String SQL_FIND_TOKEN = "SELECT * FROM car_users WHERE token = ?";
+    //language=SQL
+    private static final String SQL_DELETE_TOKEN = "UPDATE car_users SET token = NULL WHERE token = ?";
 
     public UsersDaoJdbcImpl(Connection connection) {
         this.connection =connection;
@@ -59,7 +61,7 @@ public class UsersDaoJdbcImpl implements UsersDao {
     }
 
 
-    public User find(int id) {
+    public User findId(int id) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_USERS);
             preparedStatement.setInt(1, id);
@@ -147,13 +149,44 @@ public class UsersDaoJdbcImpl implements UsersDao {
         }
     }
 
-    public int find(String token) {
+    public int findId(String token) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_TOKEN);
             preparedStatement.setString(1, token);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             return resultSet.getInt("id");
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    public User findUser(String token) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_TOKEN);
+            preparedStatement.setString(1, token);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            User u = new User.Builder()
+                    .login(resultSet.getString("login"))
+                    .password(resultSet.getString("password_"))
+                    .lastName(resultSet.getString("last_name"))
+                    .firstName(resultSet.getString("first_name"))
+                    .age(resultSet.getInt("age"))
+                    .city(resultSet.getString("city"))
+                    .token(resultSet.getString("token"))
+                    .build();
+            return u;
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    public void deleteToken(String token) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_TOKEN);
+            preparedStatement.setString(1, token);
+            preparedStatement.execute();
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);
         }

@@ -5,11 +5,14 @@ import ru.itis.models.User;
 import ru.itis.services.UserService;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 
 import static java.lang.Integer.parseInt;
 import static ru.itis.hash.Whirlpool.toHash;
@@ -34,7 +37,6 @@ public class RegistrationServlet extends HttpServlet{
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
-
     }
 
     @Override
@@ -50,6 +52,10 @@ public class RegistrationServlet extends HttpServlet{
             Integer age = parseInt(req.getParameter("age"));
             String city = req.getParameter("city");
 
+            String token = new BigInteger(130, new SecureRandom()).toString(32);
+            Cookie cookie = new Cookie("token", token);
+            resp.addCookie(cookie);
+
             userService.addUser(new User.Builder()
                     .login(login)
                     .password(toHash(password))
@@ -57,6 +63,7 @@ public class RegistrationServlet extends HttpServlet{
                     .firstName(firstName)
                     .age(age)
                     .city(city)
+                    .token(token)
                     .build());
 
             resp.sendRedirect("/profile");

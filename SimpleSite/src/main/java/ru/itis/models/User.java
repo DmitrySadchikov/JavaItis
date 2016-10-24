@@ -1,7 +1,5 @@
 package ru.itis.models;
 
-import com.google.common.base.MoreObjects;
-
 import java.util.List;
 
 public class User {
@@ -128,11 +126,13 @@ public class User {
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
+        /*return MoreObjects.toStringHelper(this)
                 .add("Last name", this.getLastName())
                 .add("First name", this.getFirstName())
                 .add("Age", this.getAge())
                 .add("City", this.getCity())
-                .toString();
+                .toString();*/
+        return getLastName() + " " + getFirstName()  +
+                ", " + getAge() + ", " + getCity();
     }
 }

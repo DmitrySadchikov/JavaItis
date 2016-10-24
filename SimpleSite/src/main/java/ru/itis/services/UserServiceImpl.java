@@ -6,6 +6,7 @@ import ru.itis.models.User;
 import java.util.List;
 
 import static ru.itis.utils.Verifier.verifyUserExist;
+import static ru.itis.utils.Verifier.verifyUserExistByToken;
 
 public class UserServiceImpl implements UserService {
 
@@ -15,12 +16,12 @@ public class UserServiceImpl implements UserService {
         this.usersDao = usersDao;
     }
 
-    public User findUserById(int id) {
-        return usersDao.find(id);
+    public User findIdById(int id) {
+        return usersDao.findId(id);
     }
 
-    public int findUserByToken(String token) {
-        return usersDao.find(token);
+    public int findIdByToken(String token) {
+        return usersDao.findId(token);
     }
 
     public void updateUser(User user) {
@@ -49,5 +50,14 @@ public class UserServiceImpl implements UserService {
     public void setToken(String login, String token) {
         verifyUserExist(login);
         this.usersDao.setToken(login, token);
+    }
+
+    public void deleteToken(String token) {
+        verifyUserExistByToken(token);
+        this.usersDao.deleteToken(token);
+    }
+
+    public User findUserByToken(String token) {
+        return this.usersDao.findUser(token);
     }
 }
