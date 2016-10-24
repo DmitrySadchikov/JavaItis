@@ -52,7 +52,7 @@ public class LoginServlet extends HttpServlet {
             else {
                 String token = new BigInteger(130, new SecureRandom()).toString(32);
                 Cookie cookie = new Cookie("token", token);
-                req.setAttribute("cookie", cookie);
+                resp.addCookie(cookie);
                 userService.setToken(login, token);
                 resp.sendRedirect("/profile");
             }

@@ -1,6 +1,8 @@
 package ru.itis.factories;
 
+import ru.itis.dao.CarsDao;
 import ru.itis.dao.UsersDao;
+import ru.itis.services.CarService;
 import ru.itis.services.UserService;
 
 import java.io.FileInputStream;
@@ -15,19 +17,24 @@ public class ServiceFactory {
     private static ServiceFactory instance;
     private Properties properties;
     private UserService userService;
+    private CarService carService;
 
     private ServiceFactory() {
         try {
             this.properties = new Properties();
-            properties.load(new FileInputStream("/home/dmitry/Desktop/JavaItis/JdbsDemo" +
-                    "/src/main/resources/service.properties"));
-            String serviceClass = properties.getProperty("service.class");
+            properties.load(new FileInputStream("/home/dmitry/Desktop/JavaItis" +
+                    "/SimpleSite/src/main/resources/service.properties"));
+            String userServiceClass = properties.getProperty("userService.class");
+            String carServiceClass = properties.getProperty("carService.class");
 
-            Class clazz = Class.forName(serviceClass);
+            Class userClazz = Class.forName(userServiceClass);
+            Class carClazz = Class.forName(carServiceClass);
 
-            Constructor constructor = clazz.getConstructor(UsersDao.class);
-            this.userService = (UserService) constructor.newInstance(DaoFactory.getInstance().getUsersDao());
+            Constructor userClazzConstructor = userClazz.getConstructor(UsersDao.class);
+            this.userService = (UserService) userClazzConstructor.newInstance(DaoFactory.getInstance().getUsersDao());
 
+            Constructor carClazzConstructor = carClazz.getConstructor(CarsDao.class);
+            this.carService = (CarService) carClazzConstructor.newInstance(DaoFactory.getInstance().getCarsDao());
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException(e);
         } catch (IOException e) {
@@ -55,5 +62,9 @@ public class ServiceFactory {
 
     public UserService getUserService() {
         return this.userService;
+    }
+
+    public CarService getCarService() {
+        return carService;
     }
 }

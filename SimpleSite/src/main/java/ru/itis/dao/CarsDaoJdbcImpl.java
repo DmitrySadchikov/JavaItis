@@ -20,8 +20,8 @@ public class CarsDaoJdbcImpl implements CarsDao {
     private static final String SQL_UPDATE_CARS = "UPDATE cars SET make = ?, " +
             "color = ?, power = ?, WHERE id = ?;";
     //language=SQL
-    private static final String SQL_ADD_CARS = "INSERT INTO cars (make, color, power)"
-            + " VALUES (?, ?, ?);";
+    private static final String SQL_ADD_CARS = "INSERT INTO cars (make, color, power, id_user)"
+            + " VALUES (?, ?, ?, ?);";
 
     public CarsDaoJdbcImpl(Connection connection) {
         this.connection = connection;
@@ -94,6 +94,7 @@ public class CarsDaoJdbcImpl implements CarsDao {
             preparedStatement.setString(1, car.getMake());
             preparedStatement.setString(2, car.getColor());
             preparedStatement.setInt(3, car.getPower());
+            preparedStatement.setInt(4, car.getId_user());
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);

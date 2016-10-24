@@ -20,6 +20,8 @@ public class Verifier {
     private static final String SQL_FIND_LOGIN = "SELECT * FROM car_users WHERE login = ?";
     // language=SQL
     private static final String SQL_FIND_CAR = "SELECT * FROM cars WHERE id = ?;";
+    //language=SQL
+    private static final String SQL_FIND_TOKEN = "SELECT * FROM car_users WHERE token = ?";
 
 
     public static void verifyUserExist(int userId) {
@@ -41,6 +43,21 @@ public class Verifier {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_LOGIN);
             preparedStatement.setString(1, login);
+
+            ResultSet result = preparedStatement.executeQuery();
+
+            if (!result.next()) {
+                throw new IllegalArgumentException("USER_NOT_FOUND");
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public static void verifyUserExistByToken(String token) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_TOKEN);
+            preparedStatement.setString(1, token);
 
             ResultSet result = preparedStatement.executeQuery();
 

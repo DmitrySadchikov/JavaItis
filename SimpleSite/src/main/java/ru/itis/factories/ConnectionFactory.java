@@ -18,8 +18,8 @@ public class ConnectionFactory {
     private ConnectionFactory() {
         try {
             properties = new Properties();
-            properties.load(new FileInputStream("/home/dmitry/Desktop/JavaItis/JdbsDemo" +
-                    "/src/main/resources/connection.properties"));
+            properties.load(new FileInputStream("/home/dmitry/Desktop/JavaItis" +
+                    "/SimpleSite/src/main/resources/connection.properties"));
             this.connection = null;
             String driver = properties.getProperty("jdbc.driver");
             String URL = properties.getProperty("jdbc.URL");

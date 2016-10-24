@@ -6,6 +6,7 @@ import java.util.List;
 public interface UsersDao {
 
     User find(int id);
+    int find(String token);
     List<User> getAll();
     void delete(int id);
     void update(User user);

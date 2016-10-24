@@ -3,7 +3,7 @@ package ru.itis.filters;
 import javax.servlet.*;
 import java.io.IOException;
 
-public class RegistrationFilter implements Filter {
+public class LoginFilter implements Filter {
 
     public void init(FilterConfig filterConfig) throws ServletException {
 

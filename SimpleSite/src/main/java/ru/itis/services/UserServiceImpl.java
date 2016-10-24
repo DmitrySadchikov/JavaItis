@@ -14,8 +14,13 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(UsersDao usersDao) {
         this.usersDao = usersDao;
     }
+
     public User findUserById(int id) {
         return usersDao.find(id);
+    }
+
+    public int findUserByToken(String token) {
+        return usersDao.find(token);
     }
 
     public void updateUser(User user) {

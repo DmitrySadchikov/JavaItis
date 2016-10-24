@@ -24,10 +24,11 @@ public class UsersDaoJdbcImpl implements UsersDao {
             "last_name, first_name, age, city, token)"
             + " VALUES (?, ?, ?, ?, ?, ?, ?);";
     //language=SQL
-    private static final String SQL_GET_PASS = "SELECT password_" +
-            " FROM car_users c WHERE c.login = ?";
+    private static final String SQL_GET_PASS = "SELECT password_ FROM car_users WHERE login = ?";
     //language=SQL
     private static final String SQL_SET_TOKEN = "UPDATE car_users SET token = ? WHERE login = ?";
+    //language=SQL
+    private static final String SQL_FIND_TOKEN = "SELECT id FROM car_users WHERE token = ?";
 
     public UsersDaoJdbcImpl(Connection connection) {
         this.connection =connection;
@@ -141,6 +142,18 @@ public class UsersDaoJdbcImpl implements UsersDao {
             preparedStatement.setString(1, token);
             preparedStatement.setString(2, login);
             preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    public int find(String token) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_TOKEN);
+            preparedStatement.setString(1, token);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getInt("id");
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);
         }
