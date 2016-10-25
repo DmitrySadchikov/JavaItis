@@ -14,7 +14,6 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
-import static java.lang.Integer.parseInt;
 import static ru.itis.hash.Whirlpool.toHash;
 
 public class RegistrationServlet extends HttpServlet{
@@ -49,8 +48,17 @@ public class RegistrationServlet extends HttpServlet{
             String password = req.getParameter("password");
             String lastName = req.getParameter("last_name");
             String firstName = req.getParameter("first_name");
-            Integer age = parseInt(req.getParameter("age"));
+            Integer age = 0;
             String city = req.getParameter("city");
+            String s = req.getParameter("age");
+            if(!s.equals(""))
+                age = Integer.parseInt(s);
+
+            if(login.equals("") || password.equals("") ||
+                    lastName.equals("") || firstName.equals("")) {
+                req.setAttribute("error", "Field * must not be empty");
+                doGet(req, resp);
+            }
 
             String token = new BigInteger(130, new SecureRandom()).toString(32);
             Cookie cookie = new Cookie("token", token);

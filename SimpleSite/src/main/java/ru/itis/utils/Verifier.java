@@ -22,6 +22,8 @@ public class Verifier {
     private static final String SQL_FIND_CAR = "SELECT * FROM cars WHERE id = ?;";
     //language=SQL
     private static final String SQL_FIND_TOKEN = "SELECT * FROM car_users WHERE token = ?";
+    //language=SQL
+    private static final String SQL_FIND_NUMBER = "SELECT * FROM cars WHERE number_ = ?";
 
 
     public static void verifyUserExist(int userId) {
@@ -73,6 +75,21 @@ public class Verifier {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_CAR);
             preparedStatement.setInt(1, carId);
+
+            ResultSet result = preparedStatement.executeQuery();
+
+            if(!result.next()) {
+                throw new IllegalArgumentException("CAR_NOT_FOUND");
+            }
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    public static void verifyCarExist(String number) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_NUMBER);
+            preparedStatement.setString(1, number);
 
             ResultSet result = preparedStatement.executeQuery();
 
