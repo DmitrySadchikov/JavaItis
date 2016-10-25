@@ -93,7 +93,7 @@ public class Verifier {
 
             ResultSet result = preparedStatement.executeQuery();
 
-            if(!result.next()) {
+            if(result.next()) {
                 throw new IllegalArgumentException("CAR_NOT_FOUND");
             }
         } catch (SQLException e) {

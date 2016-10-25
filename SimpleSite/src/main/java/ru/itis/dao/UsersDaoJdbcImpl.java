@@ -183,6 +183,20 @@ public class UsersDaoJdbcImpl implements UsersDao {
             preparedStatement.setString(1, token);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
+
+            List<Car> cars = new ArrayList<Car>();
+            PreparedStatement preparedStatement2 = connection.prepareStatement(SQL_CARS_OF_USER);
+            preparedStatement2.setInt(1, resultSet.getInt("id"));
+            ResultSet resultSetCars = preparedStatement2.executeQuery();
+            while (resultSetCars.next()) {
+                Car c = new Car.Builder()
+                        .make(resultSetCars.getString("make"))
+                        .number(resultSetCars.getString("number_"))
+                        .color(resultSetCars.getString("color"))
+                        .build();
+                cars.add(c);
+            }
+
             User u = new User.Builder()
                     .login(resultSet.getString("login"))
                     .password(resultSet.getString("password_"))
@@ -191,6 +205,7 @@ public class UsersDaoJdbcImpl implements UsersDao {
                     .age(resultSet.getInt("age"))
                     .city(resultSet.getString("city"))
                     .token(resultSet.getString("token"))
+                    .cars(cars)
                     .build();
             return u;
         } catch (SQLException e) {
