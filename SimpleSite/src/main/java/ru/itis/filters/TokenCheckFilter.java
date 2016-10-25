@@ -18,10 +18,11 @@ public class TokenCheckFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException{
         try {
             String path = ((HttpServletRequest)servletRequest).getRequestURI();
-            if (path.equals("/") || path.equals("/login")
+            if (path.equals("/") || path.equals("/login") || path.equals("/logout")
                     || path.equals("/registration") || path.equals("/favicon.ico")) {
                 filterChain.doFilter(servletRequest, servletResponse);
-            } else {
+            }
+            else {
                 Cookie[] cookies = ((HttpServletRequest)servletRequest).getCookies();
                 if(cookies != null) {
                     for(Cookie cookie : cookies) {
@@ -32,12 +33,13 @@ public class TokenCheckFilter implements Filter {
                         }
                     }
                 }
-                (servletRequest).setAttribute("error", "Session error. Login again");
-                ((HttpServletResponse) servletResponse).sendRedirect("/home");
+                (servletRequest).setAttribute("error", "Login again");
+                ((HttpServletResponse) servletResponse).sendRedirect("/");
+
             }
         } catch (IllegalArgumentException e) {
             (servletRequest).setAttribute("error", "Session error. Login again");
-            ((HttpServletResponse) servletResponse).sendRedirect("/home");
+            ((HttpServletResponse) servletResponse).sendRedirect("/");
         } catch (ServletException e) {
             throw new IllegalArgumentException(e);
         }

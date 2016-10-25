@@ -37,7 +37,7 @@ public class LogoutServlet extends HttpServlet {
                     killMyCookie.setPath("/");
                     resp.addCookie(killMyCookie);
                     userService.deleteToken(token);
-                    getServletContext().getRequestDispatcher("/jsp/home.jsp").forward(req, resp);
+                    resp.sendRedirect("/");
                 }
             }
         }

@@ -18,9 +18,9 @@ public class CarsDaoJdbcImpl implements CarsDao {
     private static final String SQL_DELETE_CARS = "DELETE FROM cars WHERE id = ?";
     //language=SQL
     private static final String SQL_UPDATE_CARS = "UPDATE cars SET make = ?, " +
-            "color = ?, power = ?, WHERE id = ?;";
+            "color = ?, number_ = ?, WHERE id = ?;";
     //language=SQL
-    private static final String SQL_ADD_CARS = "INSERT INTO cars (make, color, power, id_user)"
+    private static final String SQL_ADD_CARS = "INSERT INTO cars (make, color, number_, id_user)"
             + " VALUES (?, ?, ?, ?);";
 
     public CarsDaoJdbcImpl(Connection connection) {
@@ -38,7 +38,7 @@ public class CarsDaoJdbcImpl implements CarsDao {
                 Car c = new Car.Builder()
                         .make(resultSet.getString("make"))
                         .color(resultSet.getString("color"))
-                        .power(resultSet.getInt("power"))
+                        .number(resultSet.getString("number_"))
                         .build();
                 cars.add(c);
             }
@@ -57,7 +57,7 @@ public class CarsDaoJdbcImpl implements CarsDao {
             Car c = new Car.Builder()
                     .make(resultSet.getString("make"))
                     .color(resultSet.getString("color"))
-                    .power(resultSet.getInt("power")).build();
+                    .number(resultSet.getString("number_")).build();
             return c;
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);
@@ -80,7 +80,7 @@ public class CarsDaoJdbcImpl implements CarsDao {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_CARS);
             preparedStatement.setString(1, car.getMake());
             preparedStatement.setString(2, car.getColor());
-            preparedStatement.setInt(3, car.getPower());
+            preparedStatement.setString(3, car.getNumber());
             preparedStatement.setInt(4, car.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -93,7 +93,7 @@ public class CarsDaoJdbcImpl implements CarsDao {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD_CARS);
             preparedStatement.setString(1, car.getMake());
             preparedStatement.setString(2, car.getColor());
-            preparedStatement.setInt(3, car.getPower());
+            preparedStatement.setString(3, car.getNumber());
             preparedStatement.setInt(4, car.getId_user());
             preparedStatement.execute();
         } catch (SQLException e) {

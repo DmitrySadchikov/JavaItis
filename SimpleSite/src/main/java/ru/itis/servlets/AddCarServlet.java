@@ -44,7 +44,7 @@ public class AddCarServlet extends HttpServlet {
             req.setCharacterEncoding("UTF-8");
 
             String make = req.getParameter("make");
-            Integer power = Integer.parseInt(req.getParameter("power"));
+            String number = req.getParameter("number");
             String color = req.getParameter("color");
 
             Cookie[] cookies = req.getCookies();
@@ -56,12 +56,13 @@ public class AddCarServlet extends HttpServlet {
 
                         carService.addCar(new Car.Builder()
                                 .make(make)
-                                .power(power)
+                                .number(number)
                                 .color(color)
                                 .id_user(id_user)
                                 .build());
 
                         getServletContext().getRequestDispatcher("/jsp/profile.jsp").forward(req, resp);
+                        //resp.sendRedirect("/profile");
                     }
                 }
             }

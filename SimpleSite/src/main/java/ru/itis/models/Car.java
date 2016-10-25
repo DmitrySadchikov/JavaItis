@@ -6,14 +6,14 @@ public class Car {
     private int id;
     private String make;
     private String color;
-    private int power;
+    private String number;
     private int id_user;
 
     public static class Builder {
         private int id;
         private String make;
         private String color;
-        private int power;
+        private String number;
         private int id_user;
 
         public Builder id(int id) {
@@ -31,8 +31,8 @@ public class Car {
             return this;
         }
 
-        public Builder power(int power) {
-            this.power = power;
+        public Builder number(String number) {
+            this.number = number;
             return this;
         }
 
@@ -50,7 +50,7 @@ public class Car {
         this.id = builder.id;
         this.make = builder.make;
         this.color = builder.color;
-        this.power = builder.power;
+        this.number = builder.number;
         this.id_user = builder.id_user;
     }
 
@@ -66,8 +66,8 @@ public class Car {
         return color;
     }
 
-    public int getPower() {
-        return power;
+    public String getNumber() {
+        return number;
     }
 
     public int getId_user() { return  id_user; }
@@ -76,7 +76,7 @@ public class Car {
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("Make", this.getMake())
-                .add("Power", this.getPower())
+                .add("Number", this.getNumber())
                 .add("Color", this.getColor())
                 .toString();
     }

@@ -18,7 +18,7 @@
 <form action="addcar" method="post">
     <hr>
     Make: <input type="text" name="make">
-    Power: <input type="text" name="power">
+    Number: <input type="text" name="number">
     Color: <input type="text" name="color">
     <input type="submit" value="Add car">
     <hr>
