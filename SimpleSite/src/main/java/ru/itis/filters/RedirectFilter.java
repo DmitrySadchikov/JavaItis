@@ -18,28 +18,35 @@ public class RedirectFilter implements Filter{
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         try {
             String path = ((HttpServletRequest)servletRequest).getRequestURI();
-            if(path.equals("/") || path.equals("/login") || path.equals("/registration")) {
-                Cookie[] cookies = ((HttpServletRequest)servletRequest).getCookies();
-                if(cookies != null) {
-                    boolean flag = false;
-                    for(Cookie cookie : cookies) {
-                        if(cookie.getName().equals("token")) {
-                            String token = cookie.getValue();
-                            verifyUserExistByToken(token);
+            Cookie[] cookies = ((HttpServletRequest)servletRequest).getCookies();
+            boolean flag = false;
+            if(cookies != null) {
+                for(Cookie cookie : cookies) {
+                    if(cookie.getName().equals("token") && !flag) {
+                        String token = cookie.getValue();
+                        verifyUserExistByToken(token);
+                        flag = true;
+                        if(path.equals("/") || path.equals("/login") || path.equals("/registration")) {
                             ((HttpServletResponse) servletResponse).sendRedirect("/profile");
-                            flag = true;
+                            return;
                         }
                     }
-                    if(!flag)
-                        filterChain.doFilter(servletRequest, servletResponse);
                 }
-                else
-                    filterChain.doFilter(servletRequest, servletResponse);
+                if(!flag && (!path.equals("/") || !path.equals("/login")
+                        || !path.equals("/registration") || !path.equals("/favicon.ico"))) {
+                    ((HttpServletResponse) servletResponse).sendRedirect("/");
+                }
             }
-            else
-                filterChain.doFilter(servletRequest, servletResponse);
+            if(path.equals("/favicon.ico")) {
+                return;
+            }
+                //return;
+            //filterChain.doFilter(servletRequest, servletResponse);
+
+
         } catch (IllegalArgumentException e) {
-            filterChain.doFilter(servletRequest, servletResponse);
+            ((HttpServletResponse) servletResponse).sendRedirect("/");
+            //filterChain.doFilter(servletRequest, servletResponse);
         }
 
     }
