@@ -61,8 +61,6 @@ public class RegistrationServlet extends HttpServlet{
             }
             else {
                 String token = new BigInteger(130, new SecureRandom()).toString(32);
-                Cookie cookie = new Cookie("token", token);
-                resp.addCookie(cookie);
 
                 userService.addUser(new User.Builder()
                         .login(login)
@@ -73,6 +71,9 @@ public class RegistrationServlet extends HttpServlet{
                         .city(city)
                         .token(token)
                         .build());
+
+                Cookie cookie = new Cookie("token", token);
+                resp.addCookie(cookie);
 
                 resp.sendRedirect("/profile");
             }
