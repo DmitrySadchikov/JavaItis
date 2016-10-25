@@ -33,12 +33,10 @@ public class TokenCheckFilter implements Filter {
                         }
                     }
                 }
-                (servletRequest).setAttribute("error", "Login again");
                 ((HttpServletResponse) servletResponse).sendRedirect("/");
 
             }
         } catch (IllegalArgumentException e) {
-            (servletRequest).setAttribute("error", "Session error. Login again");
             ((HttpServletResponse) servletResponse).sendRedirect("/");
         } catch (ServletException e) {
             throw new IllegalArgumentException(e);

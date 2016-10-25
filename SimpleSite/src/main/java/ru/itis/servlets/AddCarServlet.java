@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import static ru.itis.utils.Verifier.verifyCarExist;
+
 public class AddCarServlet extends HttpServlet {
 
     private CarService carService;
@@ -46,27 +48,38 @@ public class AddCarServlet extends HttpServlet {
             String make = req.getParameter("make");
             String number = req.getParameter("number");
             String color = req.getParameter("color");
+            verifyCarExist(number);
+            if(make.equals("") || number.equals("")) {
+                req.setAttribute("error", "Field * must not be empty");
+                doGet(req, resp);
+            }
+            else {
+                Cookie[] cookies = req.getCookies();
+                if(cookies != null) {
+                    for(Cookie cookie : cookies) {
+                        if(cookie.getName().equals("token")) {
+                            String token = cookie.getValue();
+                            int id_user = userService.findIdByToken(token);
 
-            Cookie[] cookies = req.getCookies();
-            if(cookies != null) {
-                for(Cookie cookie : cookies) {
-                    if(cookie.getName().equals("token")) {
-                        String token = cookie.getValue();
-                        int id_user = userService.findIdByToken(token);
+                            carService.addCar(new Car.Builder()
+                                    .make(make)
+                                    .number(number)
+                                    .color(color)
+                                    .id_user(id_user)
+                                    .build());
 
-                        carService.addCar(new Car.Builder()
-                                .make(make)
-                                .number(number)
-                                .color(color)
-                                .id_user(id_user)
-                                .build());
-
-                        getServletContext().getRequestDispatcher("/jsp/profile.jsp").forward(req, resp);
-                        //resp.sendRedirect("/profile");
+                            getServletContext().getRequestDispatcher("/jsp/profile.jsp").forward(req, resp);
+                            //resp.sendRedirect("/profile");
+                        }
                     }
                 }
             }
 
+
+
+        } catch (IllegalArgumentException e) {
+            req.setAttribute("error", "The car with this number already exists");
+            doGet(req, resp);
         } catch (UnsupportedEncodingException e) {
             throw new IllegalArgumentException(e);
         } catch (IOException e) {

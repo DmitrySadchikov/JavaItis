@@ -49,8 +49,17 @@ public class RegistrationServlet extends HttpServlet{
             String password = req.getParameter("password");
             String lastName = req.getParameter("last_name");
             String firstName = req.getParameter("first_name");
-            Integer age = parseInt(req.getParameter("age"));
+            String s = req.getParameter("age");
+            Integer age = 0;
+            if(!s.equals(""))
+                age = parseInt(s);
             String city = req.getParameter("city");
+            int i = 0;
+            if(login.equals("") || password.equals("") ||
+                    lastName.equals("") || firstName.equals("")) {
+                req.setAttribute("error", "Field * must not be empty");
+                doGet(req, resp);
+            }
 
             String token = new BigInteger(130, new SecureRandom()).toString(32);
             Cookie cookie = new Cookie("token", token);

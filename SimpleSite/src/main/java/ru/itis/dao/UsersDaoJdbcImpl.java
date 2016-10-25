@@ -1,5 +1,6 @@
 package ru.itis.dao;
 
+import ru.itis.models.Car;
 import ru.itis.models.User;
 
 import java.sql.*;
@@ -12,6 +13,8 @@ public class UsersDaoJdbcImpl implements UsersDao {
 
     //language=SQL
     private static final String SQL_ALL_USERS = "SELECT * FROM car_users";
+    //language=SQL
+    private static final String SQL_CARS_OF_USER = "SELECT * FROM cars WHERE id_user = ?";
     //language=SQL
     private static final String SQL_FIND_USERS = "SELECT * FROM car_users WHERE id = ?";
     //language=SQL
@@ -43,6 +46,16 @@ public class UsersDaoJdbcImpl implements UsersDao {
 
             ResultSet resultSet = statement.executeQuery(SQL_ALL_USERS);
             while (resultSet.next()) {
+                List<Car> cars = new ArrayList<Car>();
+                ResultSet resultSetCars = statement.executeQuery(SQL_CARS_OF_USER);
+                while (resultSetCars.next()) {
+                    Car c = new Car.Builder()
+                            .make(resultSetCars.getString("make"))
+                            .number(resultSetCars.getString("number_"))
+                            .color(resultSet.getString("color"))
+                            .build();
+                    cars.add(c);
+                }
                 User u = new User.Builder()
                         .login(resultSet.getString("login"))
                         .password(resultSet.getString("password_"))
@@ -51,6 +64,7 @@ public class UsersDaoJdbcImpl implements UsersDao {
                         .age(resultSet.getInt("age"))
                         .city(resultSet.getString("city"))
                         .token(resultSet.getString("token"))
+                        .cars(cars)
                         .build();
                 users.add(u);
             }

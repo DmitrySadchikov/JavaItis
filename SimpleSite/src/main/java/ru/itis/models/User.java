@@ -11,7 +11,7 @@ public class User {
     private int age;
     private String city;
     private String token;
-    private List<Car> cars; //?
+    private List<Car> cars;
 
 
     public static class Builder {
@@ -132,7 +132,11 @@ public class User {
                 .add("Age", this.getAge())
                 .add("City", this.getCity())
                 .toString();*/
-        return getLastName() + " " + getFirstName()  +
+        String result = getLastName() + " " + getFirstName()  +
                 ", " + getAge() + ", " + getCity();
+        for(Car car : cars) {
+            result += car + "\n";
+        }
+        return result;
     }
 }

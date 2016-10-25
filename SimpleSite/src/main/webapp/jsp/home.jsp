@@ -18,7 +18,6 @@
     <p style="text-align: center">
         <input type="button" value="Login" onclick="window.location='/login'">
         <input type="button" value="Registration" onclick="window.location='/registration'">
-        <span class="error">&nbsp;&nbsp;&nbsp;${requestScope.error}</span>
     </p>
 </form>
 </body>
