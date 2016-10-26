@@ -15,6 +15,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 
 import static ru.itis.hash.Whirlpool.toHash;
+import static ru.itis.utils.Verifier.verifyUserExist;
 
 public class RegistrationServlet extends HttpServlet{
 
@@ -60,22 +61,29 @@ public class RegistrationServlet extends HttpServlet{
                 doGet(req, resp);
             }
             else {
-                String token = new BigInteger(130, new SecureRandom()).toString(32);
+                try {
+                    verifyUserExist(login);
+                    req.setAttribute("error", "User already exists");
+                    doGet(req, resp);
+                } catch (IllegalArgumentException e) {
 
-                userService.addUser(new User.Builder()
-                        .login(login)
-                        .password(toHash(password))
-                        .lastName(lastName)
-                        .firstName(firstName)
-                        .age(age)
-                        .city(city)
-                        .token(token)
-                        .build());
+                    String token = new BigInteger(130, new SecureRandom()).toString(32);
 
-                Cookie cookie = new Cookie("token", token);
-                resp.addCookie(cookie);
+                    userService.addUser(new User.Builder()
+                            .login(login)
+                            .password(toHash(password))
+                            .lastName(lastName)
+                            .firstName(firstName)
+                            .age(age)
+                            .city(city)
+                            .token(token)
+                            .build());
 
-                resp.sendRedirect("/profile");
+                    Cookie cookie = new Cookie("token", token);
+                    resp.addCookie(cookie);
+
+                    resp.sendRedirect("/profile");
+                }
             }
 
         } catch (UnsupportedEncodingException e) {

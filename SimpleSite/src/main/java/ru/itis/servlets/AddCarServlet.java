@@ -71,7 +71,6 @@ public class AddCarServlet extends HttpServlet {
                                     .build());
 
                             getServletContext().getRequestDispatcher("/jsp/profile.jsp").forward(req, resp);
-                            //resp.sendRedirect("/profile");
                         }
                     }
                 }

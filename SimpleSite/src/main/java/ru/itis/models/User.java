@@ -126,14 +126,14 @@ public class User {
 
     @Override
     public String toString() {
-        /*return MoreObjects.toStringHelper(this)
-                .add("Last name", this.getLastName())
-                .add("First name", this.getFirstName())
-                .add("Age", this.getAge())
-                .add("City", this.getCity())
-                .toString();*/
-        String result = getLastName() + " " + getFirstName()  +
-                ", " + getAge() + ", " + getCity();
+        String result;
+        if(this.age != 0) {
+            result = getLastName() + " " + getFirstName()  +
+                    ", " + getAge() + ", " + getCity();
+        }
+        else
+            result = getLastName() + " " + getFirstName()  +
+                    ", " + getCity();
         if(cars != null)
             for(Car car : cars) {
                 result += " {" + car + "} ";
