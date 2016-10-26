@@ -46,11 +46,6 @@ public class LoginServlet extends HttpServlet {
             String password = req.getParameter("password");
             String hash = toHash(password);
 
-            if(login.equals("") || password.equals("")) {
-                req.setAttribute("error", "Field must not be empty");
-                doGet(req, resp);
-            }
-
             if(!hash.equals(userService.getPassword(login))) {
                 req.setAttribute("error", "Incorrect password");
                 doGet(req, resp);

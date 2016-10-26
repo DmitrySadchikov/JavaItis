@@ -9,12 +9,23 @@
             font-size: large;
         }
     </style>
+    <script type="text/javascript">
+        function validateForm() {
+            var a=document.forms["Form"]["login"].value;
+            var b=document.forms["Form"]["password"].value;
+            if (a==null || a=="",b==null || b=="")
+            {
+                alert("Please Fill All Required Field");
+                return false;
+            }
+        }
+    </script>
 </head>
 <body>
 <h1>
     Login
 </h1>
-<form action="login" method="post">
+<form name="Form" onsubmit="return validateForm()" action="login" method="post">
     <p style="text-align: center">
     <hr>
         Login: <input type="text" name="login">

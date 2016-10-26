@@ -50,28 +50,23 @@ public class AddCarServlet extends HttpServlet {
             String color = req.getParameter("color");
 
 
-            if(make.equals("") || number.equals("")) {
-                req.setAttribute("error", "Field * must not be empty");
-                doGet(req, resp);
-            }
-            else {
-                verifyCarExist(number);
-                Cookie[] cookies = req.getCookies();
-                if(cookies != null) {
-                    for(Cookie cookie : cookies) {
-                        if(cookie.getName().equals("token")) {
-                            String token = cookie.getValue();
-                            int id_user = userService.findIdByToken(token);
 
-                            carService.addCar(new Car.Builder()
-                                    .make(make)
-                                    .number(number)
-                                    .color(color)
-                                    .id_user(id_user)
-                                    .build());
+            verifyCarExist(number);
+            Cookie[] cookies = req.getCookies();
+            if(cookies != null) {
+                for(Cookie cookie : cookies) {
+                    if(cookie.getName().equals("token")) {
+                        String token = cookie.getValue();
+                        int id_user = userService.findIdByToken(token);
 
-                            getServletContext().getRequestDispatcher("/jsp/profile.jsp").forward(req, resp);
-                        }
+                        carService.addCar(new Car.Builder()
+                                .make(make)
+                                .number(number)
+                                .color(color)
+                                .id_user(id_user)
+                                .build());
+
+                        getServletContext().getRequestDispatcher("/jsp/profile.jsp").forward(req, resp);
                     }
                 }
             }

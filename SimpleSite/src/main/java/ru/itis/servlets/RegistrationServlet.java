@@ -55,35 +55,28 @@ public class RegistrationServlet extends HttpServlet{
             if(!s.equals(""))
                 age = Integer.parseInt(s);
 
-            if(login.equals("") || password.equals("") ||
-                    lastName.equals("") || firstName.equals("")) {
-                req.setAttribute("error", "Field * must not be empty");
+            try {
+                verifyUserExist(login);
+                req.setAttribute("error", "User already exists");
                 doGet(req, resp);
-            }
-            else {
-                try {
-                    verifyUserExist(login);
-                    req.setAttribute("error", "User already exists");
-                    doGet(req, resp);
-                } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
 
-                    String token = new BigInteger(130, new SecureRandom()).toString(32);
+                String token = new BigInteger(130, new SecureRandom()).toString(32);
 
-                    userService.addUser(new User.Builder()
-                            .login(login)
-                            .password(toHash(password))
-                            .lastName(lastName)
-                            .firstName(firstName)
-                            .age(age)
-                            .city(city)
-                            .token(token)
-                            .build());
+                userService.addUser(new User.Builder()
+                        .login(login)
+                        .password(toHash(password))
+                        .lastName(lastName)
+                        .firstName(firstName)
+                        .age(age)
+                        .city(city)
+                        .token(token)
+                        .build());
 
-                    Cookie cookie = new Cookie("token", token);
-                    resp.addCookie(cookie);
+                Cookie cookie = new Cookie("token", token);
+                resp.addCookie(cookie);
 
-                    resp.sendRedirect("/profile");
-                }
+                resp.sendRedirect("/profile");
             }
 
         } catch (UnsupportedEncodingException e) {

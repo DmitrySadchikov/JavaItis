@@ -9,12 +9,26 @@
             font-size: large;
         }
     </style>
+    <script type="text/javascript">
+        function validateForm() {
+            var a=document.forms["Form"]["login"].value;
+            var b=document.forms["Form"]["password"].value;
+            var c=document.forms["Form"]["last_name"].value;
+            var d=document.forms["Form"]["first_name"].value;
+            if (a==null || a=="",b==null || b=="",c==null || c=="",d==null || d=="")
+            {
+                alert("Please Fill All Required Field");
+                return false;
+            }
+        }
+
+    </script>
 </head>
 <body>
 <h1>
     Registration
 </h1>
-<form action="registration" method="post">
+<form name="Form" onsubmit="return validateForm()" action="registration" method="post">
     Login: <input type="text" name="login"> * &nbsp;
     Password: <input type="password" name="password"> *
     <hr>
