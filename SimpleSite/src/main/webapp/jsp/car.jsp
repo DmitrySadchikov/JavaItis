@@ -36,5 +36,11 @@
     <hr>
 </form>
 
+<form action="profile" method="get">
+    <p>
+        <input type="submit" value="Profile">
+    </p>
+</form>
+
 </body>
 </html>

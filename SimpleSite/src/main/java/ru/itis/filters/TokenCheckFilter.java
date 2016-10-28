@@ -24,16 +24,19 @@ public class TokenCheckFilter implements Filter {
             }
             else {
                 Cookie[] cookies = ((HttpServletRequest)servletRequest).getCookies();
+                boolean flag = false;
                 if(cookies != null) {
                     for(Cookie cookie : cookies) {
                         if(cookie.getName().equals("token")) {
                             String token = cookie.getValue();
                             verifyUserExistByToken(token);
                             filterChain.doFilter(servletRequest, servletResponse);
+                            flag = true;
                         }
                     }
                 }
-                ((HttpServletResponse) servletResponse).sendRedirect("/");
+                if(!flag)
+                    ((HttpServletResponse) servletResponse).sendRedirect("/");
 
             }
         } catch (IllegalArgumentException e) {

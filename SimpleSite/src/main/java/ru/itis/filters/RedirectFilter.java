@@ -17,23 +17,18 @@ public class RedirectFilter implements Filter{
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         try {
-            String path = ((HttpServletRequest)servletRequest).getRequestURI();
-            if(path.equals("/") || path.equals("/login") || path.equals("/registration")) {
-                Cookie[] cookies = ((HttpServletRequest)servletRequest).getCookies();
-                if(cookies != null) {
-                    boolean flag = false;
-                    for(Cookie cookie : cookies) {
-                        if(cookie.getName().equals("token")) {
-                            String token = cookie.getValue();
-                            verifyUserExistByToken(token);
-                            ((HttpServletResponse) servletResponse).sendRedirect("/profile");
-                            flag = true;
-                        }
+            Cookie[] cookies = ((HttpServletRequest)servletRequest).getCookies();
+            if(cookies != null) {
+                boolean flag = false;
+                for(Cookie cookie : cookies) {
+                    if(cookie.getName().equals("token")) {
+                        String token = cookie.getValue();
+                        verifyUserExistByToken(token);
+                        ((HttpServletResponse) servletResponse).sendRedirect("/profile");
+                        flag = true;
                     }
-                    if(!flag)
-                        filterChain.doFilter(servletRequest, servletResponse);
                 }
-                else
+                if(!flag)
                     filterChain.doFilter(servletRequest, servletResponse);
             }
             else
@@ -41,7 +36,6 @@ public class RedirectFilter implements Filter{
         } catch (IllegalArgumentException e) {
             filterChain.doFilter(servletRequest, servletResponse);
         }
-
     }
 
     public void destroy() {

@@ -54,8 +54,6 @@ public class AddCarServlet extends HttpServlet {
             String number = req.getParameter("number");
             String color = req.getParameter("color");
 
-
-
             verifyCarExist(number);
             Cookie[] cookies = req.getCookies();
             if(cookies != null) {
@@ -70,9 +68,9 @@ public class AddCarServlet extends HttpServlet {
                                 .color(color)
                                 .id_user(id_user)
                                 .build());
-
-                        getServletContext().getRequestDispatcher("/jsp/profile.jsp").forward(req, resp);
-                        //resp.sendRedirect("/profile");
+                        int i = 0;
+                        //getServletContext().getRequestDispatcher("/jsp/profile.jsp").forward(req, resp);
+                        resp.sendRedirect("/addcar");
                     }
                 }
             }
@@ -85,8 +83,8 @@ public class AddCarServlet extends HttpServlet {
             throw new IllegalArgumentException(e);
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
-        } catch (ServletException e) {
+        } /*catch (ServletException e) {
             throw new IllegalArgumentException(e);
-        }
+        }*/
     }
 }
