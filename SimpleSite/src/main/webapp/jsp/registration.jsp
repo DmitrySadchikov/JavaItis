@@ -9,6 +9,9 @@
             font-size: large;
         }
     </style>
+
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+
     <script type="text/javascript">
         function validateForm() {
             var a=document.forms["Form"]["login"].value;
@@ -21,6 +24,10 @@
                 return false;
             }
         }
+
+    </script>
+
+    <script type="text/javascript">
 
     </script>
 </head>

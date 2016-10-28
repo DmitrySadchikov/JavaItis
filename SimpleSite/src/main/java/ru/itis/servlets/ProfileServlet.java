@@ -1,9 +1,11 @@
 package ru.itis.servlets;
 
-import ru.itis.factories.ServiceFactory;
+import org.springframework.context.ApplicationContext;
 import ru.itis.models.User;
 import ru.itis.services.UserService;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -16,9 +18,12 @@ public class ProfileServlet extends HttpServlet{
     private UserService userService;
 
     @Override
-    public void init() throws ServletException {
-        super.init();
-        userService = ServiceFactory.getInstance().getUserService();
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        ServletContext sc = config.getServletContext();
+        ApplicationContext context = (ApplicationContext) sc.getAttribute("service");
+        userService = (UserService) context.getBean("userService");
+        sc.log("Recourse to userService from ProfileServlet");
     }
 
     @Override

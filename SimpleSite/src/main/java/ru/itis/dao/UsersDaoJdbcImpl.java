@@ -3,6 +3,7 @@ package ru.itis.dao;
 import ru.itis.models.Car;
 import ru.itis.models.User;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +36,12 @@ public class UsersDaoJdbcImpl implements UsersDao {
     //language=SQL
     private static final String SQL_DELETE_TOKEN = "UPDATE car_users SET token = NULL WHERE token = ?";
 
-    public UsersDaoJdbcImpl(Connection connection) {
-        this.connection =connection;
+    public UsersDaoJdbcImpl(DataSource dataSource) {
+        try {
+            this.connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     public List<User> getAll() {

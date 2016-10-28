@@ -1,10 +1,12 @@
 package ru.itis.servlets;
 
-import ru.itis.factories.ServiceFactory;
+import org.springframework.context.ApplicationContext;
 import ru.itis.models.Car;
 import ru.itis.services.CarService;
 import ru.itis.services.UserService;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -21,11 +23,14 @@ public class AddCarServlet extends HttpServlet {
     private UserService userService;
 
     @Override
-    public void init() throws ServletException {
-        super.init();
-        carService = ServiceFactory.getInstance().getCarService();
-        userService = ServiceFactory.getInstance().getUserService();
-
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        ServletContext sc = config.getServletContext();
+        ApplicationContext context = (ApplicationContext) sc.getAttribute("service");
+        userService = (UserService) context.getBean("userService");
+        carService = (CarService) context.getBean("carService");
+        sc.log("Recourse to userService from AddCarServlet");
+        sc.log("Recourse to carService from AddCarServlet");
     }
 
     @Override
@@ -67,6 +72,7 @@ public class AddCarServlet extends HttpServlet {
                                 .build());
 
                         getServletContext().getRequestDispatcher("/jsp/profile.jsp").forward(req, resp);
+                        //resp.sendRedirect("/profile");
                     }
                 }
             }

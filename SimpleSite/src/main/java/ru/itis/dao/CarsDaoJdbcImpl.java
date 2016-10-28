@@ -2,6 +2,7 @@ package ru.itis.dao;
 
 import ru.itis.models.Car;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +24,12 @@ public class CarsDaoJdbcImpl implements CarsDao {
     private static final String SQL_ADD_CARS = "INSERT INTO cars (make, color, number_, id_user)"
             + " VALUES (?, ?, ?, ?);";
 
-    public CarsDaoJdbcImpl(Connection connection) {
-        this.connection = connection;
+    public CarsDaoJdbcImpl(DataSource dataSource) {
+        try {
+            this.connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     public List<Car> getAll() {

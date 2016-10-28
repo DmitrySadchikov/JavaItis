@@ -1,7 +1,9 @@
 package ru.itis.utils;
 
-import ru.itis.factories.ConnectionFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +14,13 @@ public class Verifier {
     private static Connection connection;
 
     static {
-        connection = ConnectionFactory.getInstance().getConnection();
+        ApplicationContext context = new ClassPathXmlApplicationContext("connection.xml");
+        DataSource dataSource = (DataSource) context.getBean("dataSource");
+        try {
+            connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
     // language=SQL
     private static final String SQL_FIND_USER = "SELECT * FROM car_users WHERE id = ?;";
