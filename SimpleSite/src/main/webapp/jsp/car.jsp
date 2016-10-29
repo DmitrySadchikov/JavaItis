@@ -1,5 +1,6 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Add car</title>
@@ -27,6 +28,8 @@
 </h1>
 
 <form name="Form" onsubmit="return validateForm()" action="addcar" method="post">
+    <hr>
+    <td><c:out value="${requestScope.user}" /><td>
     <hr>
     Make: <input type="text" name="make"> * &nbsp;
     Number: <input type="text" name="number"> * &nbsp;

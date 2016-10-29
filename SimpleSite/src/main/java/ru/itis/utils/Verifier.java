@@ -2,110 +2,68 @@ package ru.itis.utils;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Verifier {
 
-    private static Connection connection;
+    private static NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     static {
         ApplicationContext context = new ClassPathXmlApplicationContext("connection.xml");
-        DataSource dataSource = (DataSource) context.getBean("dataSource");
-        try {
-            connection = dataSource.getConnection();
-        } catch (SQLException e) {
-            throw new IllegalArgumentException(e);
-        }
+        namedParameterJdbcTemplate = (NamedParameterJdbcTemplate) context.getBean("namedParameterJdbcTemplate");
     }
     // language=SQL
-    private static final String SQL_FIND_USER = "SELECT * FROM car_users WHERE id = ?;";
+    private static final String SQL_FIND_USER = "SELECT * FROM car_users WHERE id = :id;";
     //language=SQL
-    private static final String SQL_FIND_LOGIN = "SELECT * FROM car_users WHERE login = ?";
+    private static final String SQL_FIND_LOGIN = "SELECT * FROM car_users WHERE login = :login_";
     // language=SQL
-    private static final String SQL_FIND_CAR = "SELECT * FROM cars WHERE id = ?;";
+    private static final String SQL_FIND_CAR = "SELECT * FROM cars WHERE id = :id;";
     //language=SQL
-    private static final String SQL_FIND_TOKEN = "SELECT * FROM car_users WHERE token = ?";
+    private static final String SQL_FIND_TOKEN = "SELECT * FROM car_users WHERE token = :token";
     //language=SQL
-    private static final String SQL_FIND_NUMBER = "SELECT * FROM cars WHERE number_ = ?";
+    private static final String SQL_FIND_NUMBER = "SELECT * FROM cars WHERE number_ = :number_";
 
 
     public static void verifyUserExist(int userId) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_USER);
-            preparedStatement.setInt(1, userId);
-
-            ResultSet result = preparedStatement.executeQuery();
-
-            if (!result.next()) {
-                throw new IllegalArgumentException("USER_NOT_FOUND");
-            }
-        } catch (SQLException e) {
-            throw new IllegalStateException(e);
+        Map<String, Integer> namedParameters = new HashMap<String, Integer>();
+        namedParameters.put("id", userId);
+        if(namedParameterJdbcTemplate.queryForList(SQL_FIND_USER, namedParameters).isEmpty()) {
+            throw new IllegalArgumentException();
         }
     }
 
     public static void verifyUserExist(String login) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_LOGIN);
-            preparedStatement.setString(1, login);
-
-            ResultSet result = preparedStatement.executeQuery();
-
-            if (!result.next()) {
-                throw new IllegalArgumentException("USER_NOT_FOUND");
-            }
-        } catch (SQLException e) {
-            throw new IllegalStateException(e);
+        Map<String, String> namedParameters = new HashMap<String, String>();
+        namedParameters.put("login_", login);
+        if(namedParameterJdbcTemplate.queryForList(SQL_FIND_LOGIN, namedParameters).isEmpty()) {
+            throw new IllegalArgumentException();
         }
     }
 
     public static void verifyUserExistByToken(String token) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_TOKEN);
-            preparedStatement.setString(1, token);
-
-            ResultSet result = preparedStatement.executeQuery();
-
-            if (!result.next()) {
-                throw new IllegalArgumentException("USER_NOT_FOUND");
-            }
-        } catch (SQLException e) {
-            throw new IllegalStateException(e);
+        Map<String, String> namedParameters = new HashMap<String, String>();
+        namedParameters.put("token", token);
+        if(namedParameterJdbcTemplate.queryForList(SQL_FIND_TOKEN, namedParameters).isEmpty()) {
+            throw new IllegalArgumentException();
         }
     }
 
     public static void verifyCarExist(int carId) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_CAR);
-            preparedStatement.setInt(1, carId);
-
-            ResultSet result = preparedStatement.executeQuery();
-
-            if(!result.next()) {
-                throw new IllegalArgumentException("CAR_NOT_FOUND");
-            }
-        } catch (SQLException e) {
-            throw new IllegalArgumentException(e);
+        Map<String, Integer> namedParameters = new HashMap<String, Integer>();
+        namedParameters.put("id", carId);
+        if(namedParameterJdbcTemplate.queryForList(SQL_FIND_CAR, namedParameters).isEmpty()) {
+            throw new IllegalArgumentException();
         }
     }
 
     public static void verifyCarExist(String number) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_NUMBER);
-            preparedStatement.setString(1, number);
-
-            ResultSet result = preparedStatement.executeQuery();
-
-            if(result.next()) {
-                throw new IllegalArgumentException("CAR_NOT_FOUND");
-            }
-        } catch (SQLException e) {
-            throw new IllegalArgumentException(e);
+        Map<String, String> namedParameters = new HashMap<String, String>();
+        namedParameters.put("number_", number);
+        if(!namedParameterJdbcTemplate.queryForList(SQL_FIND_NUMBER, namedParameters).isEmpty()) {
+            throw new IllegalArgumentException();
         }
     }
 

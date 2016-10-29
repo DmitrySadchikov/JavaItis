@@ -6,7 +6,7 @@ import java.util.List;
 public interface CarsDao {
 
     Car find(int id);
-    List<Car> getAll();
+    List getAll();
     void delete(int id);
     void update(Car car);
     void add(Car car);

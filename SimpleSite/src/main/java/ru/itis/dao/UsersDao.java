@@ -1,13 +1,15 @@
 package ru.itis.dao;
 
 import ru.itis.models.User;
+
 import java.util.List;
 
 public interface UsersDao {
 
     User findId(int id);
     int findId(String token);
-    List<User> getAll();
+    List getAll();
+    List carsOfUser(int id);
     void delete(int id);
     void update(User user);
     void add(User user);

@@ -11,4 +11,7 @@
         <property name="password" value="1877" />
     </bean>
 
+    <bean class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate" id="namedParameterJdbcTemplate">
+        <constructor-arg type="javax.sql.DataSource" ref="dataSource"/>
+    </bean>
 </beans>
