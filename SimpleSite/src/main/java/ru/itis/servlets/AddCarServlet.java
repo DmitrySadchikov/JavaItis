@@ -83,8 +83,6 @@ public class AddCarServlet extends HttpServlet {
                     }
                 }
             }
-
-
         } catch (IllegalArgumentException e) {
             req.setAttribute("error", "The car with this number already exists");
             doGet(req, resp);
@@ -92,8 +90,6 @@ public class AddCarServlet extends HttpServlet {
             throw new IllegalArgumentException(e);
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
-        } /*catch (ServletException e) {
-            throw new IllegalArgumentException(e);
-        }*/
+        }
     }
 }

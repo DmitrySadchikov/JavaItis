@@ -62,17 +62,17 @@ public class Whirlpool {
     /**
      * The message digest size (in bits)
      */
-    public static final int DIGESTBITS = 512;
+    private static final int DIGESTBITS = 512;
 
     /**
      * The message digest size (in bytes)
      */
-    public static final int DIGESTBYTES = DIGESTBITS >>> 3;
+    private static final int DIGESTBYTES = DIGESTBITS >>> 3;
 
     /**
      * The number of rounds of the internal dedicated block cipher.
      */
-    protected static final int R = 10;
+    private static final int R = 10;
 
     /**
      * The substitution box.
@@ -182,39 +182,39 @@ public class Whirlpool {
     /**
      * Global number of hashed bits (256-bit counter).
      */
-    protected byte[] bitLength = new byte[32];
+    private byte[] bitLength = new byte[32];
 
     /**
      * Buffer of data to hash.
      */
-    protected byte[] buffer = new byte[64];
+    private byte[] buffer = new byte[64];
 
     /**
      * Current number of bits on the buffer.
      */
-    protected int bufferBits = 0;
+    private int bufferBits = 0;
 
     /**
      * Current (possibly incomplete) byte slot on the buffer.
      */
-    protected int bufferPos = 0;
+    private int bufferPos = 0;
 
     /**
      * The hashing state.
      */
-    protected long[] hash  = new long[8];
-    protected long[] K     = new long[8]; // the round key
-    protected long[] L     = new long[8];
-    protected long[] block = new long[8]; // mu(buffer)
-    protected long[] state = new long[8]; // the cipher state
+    private long[] hash  = new long[8];
+    private long[] K     = new long[8]; // the round key
+    private long[] L     = new long[8];
+    private long[] block = new long[8]; // mu(buffer)
+    private long[] state = new long[8]; // the cipher state
 
-    public Whirlpool() {
+    private Whirlpool() {
     }
 
     /**
      * The core Whirlpool transform.
      */
-    protected void processBuffer() {
+    private void processBuffer() {
         /*
          * map the buffer to a block:
          */
@@ -276,7 +276,7 @@ public class Whirlpool {
     /**
      * Initialize the hashing state.
      */
-    public void NESSIEinit() {
+    private void NESSIEinit() {
         Arrays.fill(bitLength, (byte)0);
         bufferBits = bufferPos = 0;
         buffer[0] = 0; // it's only necessary to cleanup buffer[bufferPos].
@@ -291,7 +291,7 @@ public class Whirlpool {
      * 
      * This method maintains the invariant: bufferBits < 512
      */
-    public void NESSIEadd(byte[] source, long sourceBits) {
+    private void NESSIEadd(byte[] source, long sourceBits) {
         /*
                            sourcePos
                            |
@@ -373,7 +373,7 @@ public class Whirlpool {
      * 
      * This method uses the invariant: bufferBits < 512
      */
-    public void NESSIEfinalize(byte[] digest) {
+    private void NESSIEfinalize(byte[] digest) {
         // append a '1'-bit:
         buffer[bufferPos] |= 0x80 >>> (bufferBits & 7);
         bufferPos++; // all remaining bits on the current byte are set to zero.
@@ -415,7 +415,7 @@ public class Whirlpool {
      * 
      * This method maintains the invariant: bufferBits < 512
      */
-    public void NESSIEadd(String source) {
+    private void NESSIEadd(String source) {
         if (source.length() > 0) {
             byte[] data = new byte[source.length()];
             for (int i = 0; i < source.length(); i++) {
@@ -436,55 +436,6 @@ public class Whirlpool {
         return String.valueOf(val);
     }
 
-    private static final int LONG_ITERATION = 100000000;
-
-    /**
-     * Generate the NESSIE test vector set for Whirlpool.
-     *
-     * The test consists of:
-     * 1. hashing all bit strings containing only zero bits
-     *    for all lengths from 0 to 1023;
-     * 2. hashing all 512-bit strings containing a single set bit;
-     * 3. the iterated hashing of the 512-bit string of zero bits a large number of times.
-     */
-    public static void makeNESSIETestVectors() {
-        Whirlpool w = new Whirlpool();
-        byte[] digest = new byte[64];
-        byte[] data = new byte[128];
-        Arrays.fill(data, (byte)0);
-        System.out.println("Message digests of strings of 0-bits and length L:");
-        for (int i = 0; i < 1024; i++) {
-            w.NESSIEinit();
-            w.NESSIEadd(data, i);
-            w.NESSIEfinalize(digest);
-            String s = Integer.toString(i);
-            s = "     ".substring(s.length()) + s;
-            System.out.println("    L =" + s + ": " + display(digest));
-        }
-        System.out.println("Message digests of all 512-bit strings S containing a single 1-bit:");
-        data = new byte[512/8];
-        Arrays.fill(data, (byte)0);
-        for (int i = 0; i < 512; i++) {
-            // set bit i:
-            data[i/8] |= 0x80 >>> (i % 8);
-            w.NESSIEinit();
-            w.NESSIEadd(data, 512);
-            w.NESSIEfinalize(digest);
-            System.out.println("    S = " + display(data) + ": " + display(digest));
-            // reset bit i:
-            data[i/8] = 0;
-        }
-        for (int i = 0; i < digest.length; i++) {
-            digest[i] = 0;
-        }
-        for (int i = 0; i < LONG_ITERATION; i++) {
-            w.NESSIEinit();
-            w.NESSIEadd(digest, 512);
-            w.NESSIEfinalize(digest);
-        }
-        System.out.println("Iterated message digest computation (" + LONG_ITERATION + " times): " + display(digest));
-    }
-
     public static String toHash(String input) {
         Whirlpool w = new Whirlpool();
         byte[] digest = new byte[DIGESTBYTES];
@@ -495,7 +446,6 @@ public class Whirlpool {
         w.NESSIEadd(input);
         w.NESSIEfinalize(digest);
 
-        String r = display(digest);
-        return r;
+        return display(digest);
     }
 }

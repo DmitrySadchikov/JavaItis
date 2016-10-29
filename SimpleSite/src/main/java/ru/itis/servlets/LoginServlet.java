@@ -63,7 +63,6 @@ public class LoginServlet extends HttpServlet {
                 resp.sendRedirect("/profile");
             }
 
-
         } catch (UnsupportedEncodingException e) {
             throw new IllegalArgumentException(e);
         } catch (IOException e) {
