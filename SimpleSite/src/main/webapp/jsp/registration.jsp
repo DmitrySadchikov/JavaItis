@@ -13,6 +13,34 @@
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 
     <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#Form').submit(function (e) {
+               e.preventDefault();
+            });
+
+            $('#submit').click(function (e) {
+                var loadParams = $('#Form').serialize();
+                $.ajax({
+                    type: 'post',
+                    url: 'registration',
+                    data : $('#Form').serialize(),
+                    success:function (data) {
+                        $('#submit').disabled = false;
+                    },
+                    error:function (data) {
+                        $('#error').innerText = data;
+                        $('#submit').disabled = true;
+                    }
+                });
+                if(resp.status == 403)
+                    resp.status = 403;
+            })
+        })
+
+    </script>
+
+    <script type="text/javascript">
         function validateForm() {
             var a=document.forms["Form"]["login"].value;
             var b=document.forms["Form"]["password"].value;
@@ -26,26 +54,22 @@
         }
 
     </script>
-
-    <script type="text/javascript">
-
-    </script>
 </head>
 <body>
 <h1>
     Registration
 </h1>
-<form name="Form" onsubmit="return validateForm()" action="registration" method="post">
-    Login: <input type="text" name="login"> * &nbsp;
-    Password: <input type="password" name="password"> *
+<form id="Form" action="registration" method="post">
+    Login: <input id="login" type="text" name="login"> * &nbsp;
+    Password: <input id="password" type="password" name="password"> *
     <hr>
-    Last name: <input type="text" name="last_name"> * &nbsp;
-    First name: <input type="text" name="first_name"> *
+    Last name: <input id="last_name" type="text" name="last_name"> * &nbsp;
+    First name: <input id="first_name" type="text" name="first_name"> *
     <hr>
-    Age: <input type="text" name="age"> &nbsp;
-    City: <input type="text" name="city">
-    <input type="submit" value="Sign up">
-    <span class="error">&nbsp;&nbsp;&nbsp;${requestScope.error}</span>
+    Age: <input id="age" type="text" name="age"> &nbsp;
+    City: <input id="city" type="text" name="city">
+    <input id="submit" type="submit" value="Sign up">
+    <span id="error" class="error" disabled="false">&nbsp;&nbsp;&nbsp;${requestScope.error}</span>
 </form>
 </body>
 </html>

@@ -62,8 +62,7 @@ public class RegistrationServlet extends HttpServlet{
 
             try {
                 verifyUserExist(login);
-                req.setAttribute("error", "User already exists");
-                doGet(req, resp);
+                resp.sendError(403, "User is already exists");
             } catch (IllegalArgumentException e) {
 
                 String token = new BigInteger(130, new SecureRandom()).toString(32);
