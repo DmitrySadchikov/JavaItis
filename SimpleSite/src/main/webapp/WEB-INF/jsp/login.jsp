@@ -28,8 +28,8 @@
 <form name="Form" onsubmit="return validateForm()" action="login" method="post">
     <p style="text-align: center">
     <hr>
-        Login: <input type="text" name="login">
-        Password: <input type="password" name="password">
+    Login: <input type="text" name="login">
+    Password: <input type="password" name="password">
     <input type="submit" value="Login">
     <span class="error">&nbsp;&nbsp;&nbsp;${requestScope.error}</span>
     <hr>

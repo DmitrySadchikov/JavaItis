@@ -1,5 +1,7 @@
 package ru.itis.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.itis.dao.UsersDao;
 import ru.itis.models.User;
 
@@ -8,13 +10,11 @@ import java.util.List;
 import static ru.itis.utils.Verifier.verifyUserExist;
 import static ru.itis.utils.Verifier.verifyUserExistByToken;
 
+@Service
 public class UserServiceImpl implements UserService {
 
+    @Autowired
     private UsersDao usersDao;
-
-    public UserServiceImpl(UsersDao usersDao) {
-        this.usersDao = usersDao;
-    }
 
     public User findIdById(int id) {
         return usersDao.findId(id);

@@ -1,20 +1,20 @@
 package ru.itis.utils;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static ru.itis.utils.WebConfig.getNamedParameterJdbcTemplate;
 
 public class Verifier {
 
     private static NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     static {
-        ApplicationContext context = new ClassPathXmlApplicationContext("connection.xml");
-        namedParameterJdbcTemplate = (NamedParameterJdbcTemplate) context.getBean("namedParameterJdbcTemplate");
+        namedParameterJdbcTemplate = getNamedParameterJdbcTemplate();
     }
+
     // language=SQL
     private static final String SQL_FIND_USER = "SELECT * FROM car_users WHERE id = :id;";
     //language=SQL

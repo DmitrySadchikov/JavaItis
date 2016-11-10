@@ -10,7 +10,7 @@
         }
     </style>
 
-    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <!--<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -20,25 +20,22 @@
             });
 
             $('#submit').click(function (e) {
-                var loadParams = $('#Form').serialize();
                 $.ajax({
                     type: 'post',
                     url: 'registration',
                     data : $('#Form').serialize(),
-                    success:function (data) {
-                        $('#submit').disabled = false;
+                    success:function () {
+                        window.location = '/profile'
                     },
                     error:function (data) {
-                        $('#error').innerText = data;
-                        $('#submit').disabled = true;
+                        document.getElementsByClassName("error").innerHTML = "AAA";
+                        //$('#submit').disabled = true;
                     }
                 });
-                if(resp.status == 403)
-                    resp.status = 403;
             })
         })
 
-    </script>
+    </script><-->
 
     <script type="text/javascript">
         function validateForm() {
@@ -59,7 +56,7 @@
 <h1>
     Registration
 </h1>
-<form id="Form" action="registration" method="post">
+<form id="Form" onsubmit="return validateForm()" action="registration" method="post">
     Login: <input id="login" type="text" name="login"> * &nbsp;
     Password: <input id="password" type="password" name="password"> *
     <hr>
@@ -69,7 +66,7 @@
     Age: <input id="age" type="text" name="age"> &nbsp;
     City: <input id="city" type="text" name="city">
     <input id="submit" type="submit" value="Sign up">
-    <span id="error" class="error" disabled="false">&nbsp;&nbsp;&nbsp;${requestScope.error}</span>
+    <span id="error" class="error">&nbsp;&nbsp;&nbsp;${requestScope.error}</span>
 </form>
 </body>
 </html>

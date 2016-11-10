@@ -2,6 +2,7 @@ package ru.itis.dao;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 import ru.itis.models.Car;
 import ru.itis.models.User;
 
@@ -11,7 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UsersDaoJdbcImpl implements UsersDao {
+import static ru.itis.utils.WebConfig.getNamedParameterJdbcTemplate;
+
+@Repository
+public class UsersDaoImpl implements UsersDao {
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -39,8 +43,9 @@ public class UsersDaoJdbcImpl implements UsersDao {
     //language=SQL
     private static final String SQL_DELETE_TOKEN = "UPDATE car_users SET token = NULL WHERE token = :token";
 
-    public UsersDaoJdbcImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+
+    public UsersDaoImpl() {
+        namedParameterJdbcTemplate = getNamedParameterJdbcTemplate();
     }
 
     public List<Car> carsOfUser(int id) {
