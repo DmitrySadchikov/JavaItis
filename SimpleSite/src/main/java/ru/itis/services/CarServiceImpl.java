@@ -1,7 +1,7 @@
 package ru.itis.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.itis.dao.CarsDao;
 import ru.itis.models.Car;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 import static ru.itis.utils.Verifier.verifyCarExist;
 
-@Component
+@Service
 public class CarServiceImpl implements CarService {
 
     @Autowired

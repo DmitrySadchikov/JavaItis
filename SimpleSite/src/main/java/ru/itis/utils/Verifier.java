@@ -2,9 +2,9 @@ package ru.itis.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +14,7 @@ public class Verifier {
     private static NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Autowired
-    public Verifier(DriverManagerDataSource dataSource) {
+    public Verifier(DataSource dataSource) {
         namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 

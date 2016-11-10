@@ -3,11 +3,11 @@ package ru.itis.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
 import ru.itis.models.Car;
 import ru.itis.models.User;
 
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -44,7 +44,7 @@ public class UsersDaoImpl implements UsersDao {
     private static final String SQL_DELETE_TOKEN = "UPDATE car_users SET token = NULL WHERE token = :token";
 
     @Autowired
-    public UsersDaoImpl(DriverManagerDataSource dataSource) {
+    public UsersDaoImpl(DataSource dataSource) {
         namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 

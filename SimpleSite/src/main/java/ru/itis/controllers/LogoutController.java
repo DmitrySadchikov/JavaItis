@@ -21,7 +21,6 @@ public class LogoutController {
     public ModelAndView postLogout(@CookieValue("token") String token,
                                    HttpServletResponse response) {
 
-
         if(!token.equals("")) {
             Cookie killTokenCookie = new Cookie("token", null);
             killTokenCookie.setMaxAge(0);

@@ -39,7 +39,6 @@ public class RegistrationController {
                                          @RequestParam("city") String city,
                                          HttpServletResponse response) {
 
-
         ModelAndView modelAndView = new ModelAndView();
         Integer integerAge = 0;
         if (!age.equals(""))

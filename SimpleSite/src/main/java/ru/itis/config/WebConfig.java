@@ -1,4 +1,4 @@
-package ru.itis.utils;
+package ru.itis.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -9,6 +9,8 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebMvc
@@ -25,7 +27,8 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     }
 
     @Bean
-    public DriverManagerDataSource getDriverManagerDataSource() {
+    public DataSource getDataSource() {
+
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://localhost:5432/Car_users");
