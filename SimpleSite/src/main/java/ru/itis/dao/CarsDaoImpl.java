@@ -1,7 +1,9 @@
 package ru.itis.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
 import ru.itis.models.Car;
 
@@ -10,8 +12,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static ru.itis.utils.WebConfig.getNamedParameterJdbcTemplate;
 
 @Repository
 public class CarsDaoImpl implements CarsDao {
@@ -31,8 +31,9 @@ public class CarsDaoImpl implements CarsDao {
     private static final String SQL_ADD_CARS = "INSERT INTO cars (make, color, number_, id_user)"
             + " VALUES (:make, :color, :number_, :id_user);";
 
-    public CarsDaoImpl() {
-        namedParameterJdbcTemplate = getNamedParameterJdbcTemplate();
+    @Autowired
+    public CarsDaoImpl(DriverManagerDataSource dataSource) {
+        namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
     public List<Car> getAll() {
