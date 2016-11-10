@@ -36,17 +36,24 @@ public class LoginController {
         ModelAndView modelAndView = new ModelAndView();
         String hash = toHash(password);
 
-        if (!hash.equals(userService.getPassword(login))) {
-            modelAndView.addObject("error", "Incorrect password");
-            modelAndView.setViewName("login");
-        } else {
-            String token = new BigInteger(130, new SecureRandom()).toString(32);
-            Cookie cookie = new Cookie("token", token);
+        try {
+            if (!hash.equals(userService.getPassword(login))) {
+                modelAndView.addObject("error", "Incorrect password");
+                modelAndView.setViewName("login");
+            } else {
+                String token = new BigInteger(130, new SecureRandom()).toString(32);
+                Cookie cookie = new Cookie("token", token);
 
-            response.addCookie(cookie);
-            userService.setToken(login, token);
-            modelAndView.setViewName("redirect:/profile");
+                response.addCookie(cookie);
+                userService.setToken(login, token);
+                modelAndView.setViewName("redirect:/profile");
+            }
+            return modelAndView;
+        } catch (IllegalArgumentException e) {
+            modelAndView.addObject("error", "User not found");
+            modelAndView.setViewName("login");
+            return modelAndView;
         }
-        return modelAndView;
+
     }
 }
