@@ -1,11 +1,14 @@
 package ru.itis.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import ru.itis.dto.UserDto;
 import ru.itis.services.UserService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -28,30 +31,25 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView postLogin(@RequestParam("login") String login,
-                                  @RequestParam("password") String password,
-                                  HttpServletResponse response) {
+    public ResponseEntity postLogin(@RequestParam("login") String login,
+                                             @RequestParam("password") String password,
+                                             HttpServletResponse response) {
 
-        ModelAndView modelAndView = new ModelAndView();
         String hash = toHash(password);
 
         try {
             if (!hash.equals(userService.getPassword(login))) {
-                modelAndView.addObject("error", "Incorrect password");
-                modelAndView.setViewName("login");
+                return new ResponseEntity(HttpStatus.BAD_REQUEST);
             } else {
                 String token = new BigInteger(130, new SecureRandom()).toString(32);
 
                 response.setHeader("token", token);
 
                 userService.setToken(login, token);
-                modelAndView.setViewName("redirect:/profile");
+                return new ResponseEntity<UserDto>(HttpStatus.CREATED);
             }
-            return modelAndView;
         } catch (IllegalArgumentException e) {
-            modelAndView.addObject("error", "User not found");
-            modelAndView.setViewName("login");
-            return modelAndView;
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 
     }

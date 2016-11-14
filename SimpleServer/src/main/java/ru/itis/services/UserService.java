@@ -6,8 +6,9 @@ import java.util.List;
 
 public interface UserService {
 
-    User findIdById(int id);
+    User findUserById(int id);
     User findUserByToken(String token);
+    User findUserByAge(int age);
     int findIdByToken(String token);
     void updateUser(User user);
     List<User> getAll();

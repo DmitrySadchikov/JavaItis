@@ -8,6 +8,7 @@ public interface UsersDao {
 
     User findId(int id);
     int findId(String token);
+    User findAge(int age);
     List<User> getAll();
     List carsOfUser(int id);
     void delete(int id);

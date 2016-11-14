@@ -26,6 +26,8 @@ public class UsersDaoImpl implements UsersDao {
     //language=SQL
     private static final String SQL_FIND_USERS = "SELECT * FROM car_users WHERE id = :id";
     //language=SQL
+    private static final String SQL_FIND_AGE = "SELECT * FROM car_users WHERE age = :age";
+    //language=SQL
     private static final String SQL_DELETE_USERS = "DELETE FROM car_users WHERE id = :id";
     //language=SQL
     private static final String SQL_UPDATE_USERS = "UPDATE car_users SET password_ = :password_," +
@@ -84,6 +86,25 @@ public class UsersDaoImpl implements UsersDao {
         Map<String, Integer> namedParameters = new HashMap<String, Integer>();
         namedParameters.put("id", id);
         return namedParameterJdbcTemplate.queryForObject(SQL_FIND_USERS, namedParameters, new RowMapper<User>() {
+            public User mapRow(ResultSet resultSet, int i) throws SQLException {
+                return new User.Builder()
+                        .login(resultSet.getString("login"))
+                        .password(resultSet.getString("password_"))
+                        .lastName(resultSet.getString("last_name"))
+                        .firstName(resultSet.getString("first_name"))
+                        .age(resultSet.getInt("age"))
+                        .city(resultSet.getString("city"))
+                        .token(resultSet.getString("token"))
+                        .cars(carsOfUser(resultSet.getInt("id")))
+                        .build();
+            }
+        });
+    }
+
+    public User findAge(int age) {
+        Map<String, Integer> namedParameters = new HashMap<String, Integer>();
+        namedParameters.put("age", age);
+        return namedParameterJdbcTemplate.queryForObject(SQL_FIND_AGE, namedParameters, new RowMapper<User>() {
             public User mapRow(ResultSet resultSet, int i) throws SQLException {
                 return new User.Builder()
                         .login(resultSet.getString("login"))

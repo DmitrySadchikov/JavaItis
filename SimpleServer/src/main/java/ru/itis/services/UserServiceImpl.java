@@ -16,8 +16,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UsersDao usersDao;
 
-    public User findIdById(int id) {
+    public User findUserById(int id) {
         return usersDao.findId(id);
+    }
+
+    public User findUserByAge(int age) {
+        return usersDao.findAge(age);
     }
 
     public int findIdByToken(String token) {
