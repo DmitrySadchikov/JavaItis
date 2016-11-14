@@ -3,7 +3,6 @@ package ru.itis.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.itis.dto.CarDto;
@@ -15,7 +14,7 @@ import ru.itis.services.UserService;
 import static ru.itis.converters.ModelConverter.getCarDto;
 import static ru.itis.utils.Verifier.verifyCarExist;
 
-@Controller
+@RestController
 public class AddCarController {
 
     @Autowired
