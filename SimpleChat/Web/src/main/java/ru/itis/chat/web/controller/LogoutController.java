@@ -19,7 +19,7 @@ public class LogoutController {
     public ResponseEntity postLogout(@RequestHeader("token") String token) {
 
         if(!token.equals("")) {
-            userService.deleteToken(token);
+            //userService.deleteToken(token);
         }
 
         return new ResponseEntity(HttpStatus.OK);

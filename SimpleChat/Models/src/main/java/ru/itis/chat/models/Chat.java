@@ -4,20 +4,21 @@ import java.util.List;
 
 public class Chat {
 
-    private long id;
+    private Long id;
     private String name;
     private List<User> users;
     private List<Message> messages;
-
+    private User creator;
 
     public static class Builder {
 
-        private long id;
+        private Long id;
         private String name;
         private List<User> users;
         private List<Message> messages;
+        private User creator;
 
-        public Builder id(long id) {
+        public Builder id(Long id) {
             this.id = id;
             return this;
         }
@@ -37,6 +38,11 @@ public class Chat {
             return this;
         }
 
+        public Builder creator(User creator) {
+            this.creator = creator;
+            return this;
+        }
+
         public Chat build() {
             return new Chat(this);
         }
@@ -47,9 +53,14 @@ public class Chat {
         this.name = builder.name;
         this.users = builder.users;
         this.messages = builder.messages;
+        this.creator = builder.creator;
     }
 
-    public long getId() {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
         return id;
     }
 
@@ -63,5 +74,9 @@ public class Chat {
 
     public List<Message> getMessages() {
         return messages;
+    }
+
+    public User getCreator() {
+        return creator;
     }
 }

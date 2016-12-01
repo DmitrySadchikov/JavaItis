@@ -2,24 +2,20 @@ package ru.itis.chat.models;
 
 public class User {
 
-    private long id;
+    private Long id;
     private String login;
     private String password;
     private String lastName;
     private String firstName;
-    private String token;
-
 
     public static class Builder {
-        private long id;
+        private Long id;
         private String login;
         private String password;
         private String lastName;
         private String firstName;
-        private String token;
 
-
-        public Builder id(long id) {
+        public Builder id(Long id) {
             this.id = id;
             return this;
         }
@@ -44,11 +40,6 @@ public class User {
             return this;
         }
 
-        public Builder token(String token) {
-            this.token = token;
-            return this;
-        }
-
         public User build() {
             return new User(this);
         }
@@ -60,11 +51,14 @@ public class User {
         this.password = builder.password;
         this.lastName = builder.lastName;
         this.firstName = builder.firstName;
-        this.token = builder.token;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getLastName() {
@@ -81,10 +75,6 @@ public class User {
 
     public String getLogin() {
         return login;
-    }
-
-    public String getToken() {
-        return token;
     }
 
     @Override

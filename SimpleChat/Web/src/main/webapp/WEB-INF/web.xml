@@ -30,7 +30,6 @@
 
     <filter-mapping>
         <filter-name>RedirectFilter</filter-name>
-        <url-pattern>/</url-pattern>
         <url-pattern>/login</url-pattern>
         <url-pattern>/registration</url-pattern>
     </filter-mapping>

@@ -2,7 +2,7 @@ package ru.itis.chat.dto;
 
 public class ChatDto {
 
-    private long id;
+    private Long id;
     private String name;
 
     public ChatDto() {}
@@ -12,11 +12,11 @@ public class ChatDto {
         this.name = builder.name;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -29,10 +29,10 @@ public class ChatDto {
     }
 
     public static class Builder {
-        private long id;
+        private Long id;
         private String name;
 
-        public Builder id(long id) {
+        public Builder id(Long id) {
             this.id = id;
             return this;
         }

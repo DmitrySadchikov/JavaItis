@@ -6,7 +6,7 @@ import ru.itis.chat.dto.UserDto;
 import ru.itis.chat.models.User;
 
 @Component
-public class UserToUserDtoConverter implements Converter<User, UserDto>{
+public class UserToUserDtoConverter implements Converter<User, UserDto> {
     @Override
     public UserDto convert(User user) {
         return new UserDto.Builder()

@@ -1,25 +1,23 @@
 package ru.itis.chat.models;
 
-import java.sql.Date;
-import java.sql.Time;
+
+import java.util.Date;
 
 public class Message {
 
-    private long id;
+    private Long id;
     private String text;
-    private Time time;
     private Date date;
-    private long userId;
+    private User sender;
 
     public static class Builder {
 
-        private long id;
+        private Long id;
         private String text;
-        private Time time;
-        private Date date;
-        private long userId;
+        private Date date = new Date();
+        private User sender;
 
-        public Builder id(long id) {
+        public Builder id(Long id) {
             this.id = id;
             return this;
         }
@@ -29,18 +27,13 @@ public class Message {
             return this;
         }
 
-        public Builder time(Time time) {
-            this.time = time;
-            return this;
-        }
-
         public Builder date(Date date) {
             this.date = date;
             return this;
         }
 
-        public Builder userId(long userId) {
-            this.userId = userId;
+        public Builder sender(User userId) {
+            this.sender = userId;
             return this;
         }
 
@@ -52,12 +45,11 @@ public class Message {
     public Message(Builder builder) {
         this.id = builder.id;
         this.text = builder.text;
-        this.time = builder.time;
         this.date = builder.date;
-        this.userId = builder.userId;
+        this.sender = builder.sender;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -65,15 +57,11 @@ public class Message {
         return text;
     }
 
-    public Time getTime() {
-        return time;
-    }
-
     public Date getDate() {
         return date;
     }
 
-    public long getUserId() {
-        return userId;
+    public User getSender() {
+        return sender;
     }
 }

@@ -11,22 +11,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.itis.chat.converters.UserToUserDtoConverter;
 import ru.itis.chat.dto.UserDto;
+import ru.itis.chat.models.Token;
 import ru.itis.chat.models.User;
+import ru.itis.chat.services.interfaces.TokenService;
 import ru.itis.chat.services.interfaces.UserService;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
 import static ru.itis.chat.validators.UserValidator.verifyUserExistByLogin;
-import static ru.itis.chat.web.utils.Whirlpool.toHash;
+import static ru.itis.chat.secure.hash.Whirlpool.toHash;
 
 @RestController
 public class RegistrationController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TokenService tokenService;
 
     @Autowired
     private UserToUserDtoConverter converter;
@@ -42,23 +45,32 @@ public class RegistrationController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (IllegalArgumentException e) {
 
-            String token = new BigInteger(130, new SecureRandom()).toString(32);
+            try {
+                User user = new User.Builder()
+                        .login(login)
+                        .password(toHash(password))
+                        .lastName(lastName)
+                        .firstName(firstName)
+                        .build();
 
-            User user = new User.Builder()
-                    .login(login)
-                    .password(toHash(password))
-                    .lastName(lastName)
-                    .firstName(firstName)
-                    .token(token)
-                    .build();
+                userService.saveUser(user);
 
-            userService.saveUser(user);
-            List<String> tokens = new ArrayList<>();
-            tokens.add(token);
-            MultiValueMap<String, String> headers = new HttpHeaders();
-            headers.put("token", tokens);
+                Token token = new Token.Builder()
+                        .user(userService.findUserByLogin(user.getLogin()))
+                        .build();
 
-            return new ResponseEntity<>(converter.convert(user), headers, HttpStatus.CREATED);
+                tokenService.saveToken(token);
+                List<String> tokens = new ArrayList<>();
+                tokens.add(token.getToken());
+                MultiValueMap<String, String> headers = new HttpHeaders();
+                headers.put("token", tokens);
+                user.setId(userService.findIdByToken(token.getToken()));
+
+                return new ResponseEntity<>(converter.convert(user), headers, HttpStatus.CREATED);
+            } catch (IllegalArgumentException e1) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
         }
     }
 

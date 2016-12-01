@@ -7,14 +7,13 @@ import java.util.List;
 
 public interface UserService {
 
-    User findUserById(long id);
+    User findUserById(Long id);
     User findUserByToken(String token);
-    long findIdByToken(String token);
+    User findUserByLogin(String login);
+    Long findIdByToken(String token);
     void updateUser(User user);
     List<User> findAll();
-    void deleteUser(long id);
+    void deleteUser(Long id);
     void saveUser(User user);
     String findPasswordByLogin(String login);
-    void saveToken(String login, String token);
-    void deleteToken(String token);
 }

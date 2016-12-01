@@ -2,9 +2,9 @@ package ru.itis.chat.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.itis.chat.dao.ChatsDao;
-import ru.itis.chat.dao.MessagesDao;
-import ru.itis.chat.dao.UsersDao;
+import ru.itis.chat.dao.interfaces.ChatsDao;
+import ru.itis.chat.dao.interfaces.MessagesDao;
+import ru.itis.chat.dao.interfaces.UsersDao;
 import ru.itis.chat.models.Chat;
 import ru.itis.chat.models.User;
 import ru.itis.chat.services.interfaces.ChatService;

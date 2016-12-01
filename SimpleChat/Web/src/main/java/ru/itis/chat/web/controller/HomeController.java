@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-//TODO:кандидат на удаление (скорее всего не будет использоваться)
+// TODO:кандидат на удаление (скорее всего не будет использоваться)
 @RestController
 public class HomeController {
 

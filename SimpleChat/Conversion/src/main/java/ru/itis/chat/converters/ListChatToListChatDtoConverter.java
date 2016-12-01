@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class ListChatToListChatDtoConverter implements Converter<List<Chat>, List<ChatDto>>{
+public class ListChatToListChatDtoConverter implements Converter<List<Chat>, List<ChatDto>> {
     @Override
     public List<ChatDto> convert(List<Chat> chats) {
         List<ChatDto> chatDtoList = new ArrayList<>();

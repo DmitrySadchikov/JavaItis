@@ -1,4 +1,4 @@
-package ru.itis.chat.web.utils;
+package ru.itis.chat.secure.hash;
 /**
  * The Whirlpool hashing function.
  *

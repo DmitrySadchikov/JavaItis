@@ -11,14 +11,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.itis.chat.converters.UserToUserDtoConverter;
 import ru.itis.chat.dto.UserDto;
+import ru.itis.chat.models.Token;
+import ru.itis.chat.models.User;
+import ru.itis.chat.services.interfaces.TokenService;
 import ru.itis.chat.services.interfaces.UserService;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.itis.chat.web.utils.Whirlpool.toHash;
+import static ru.itis.chat.secure.hash.Whirlpool.toHash;
 
 
 @RestController
@@ -28,6 +29,9 @@ public class LoginController {
     private UserService userService;
 
     @Autowired
+    private TokenService tokenService;
+
+    @Autowired
     private UserToUserDtoConverter converter;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -35,19 +39,23 @@ public class LoginController {
                                              @RequestParam("password") String password) {
 
         String hash = toHash(password);
+        User user = userService.findUserByLogin(login);
 
         try {
             if (!hash.equals(userService.findPasswordByLogin(login))) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             } else {
-                String token = new BigInteger(130, new SecureRandom()).toString(32);
 
+                Token token = new Token.Builder()
+                        .user(user)
+                        .build();
+
+                tokenService.saveToken(token);
                 List<String> tokens = new ArrayList<>();
-                tokens.add(token);
-                userService.saveToken(login, token);
+                tokens.add(token.getToken());
                 MultiValueMap<String, String> headers = new HttpHeaders();
                 headers.put("token", tokens);
-                return new ResponseEntity<>(converter.convert(userService.findUserByToken(token)), headers, HttpStatus.CREATED);
+                return new ResponseEntity<>(converter.convert(user), headers, HttpStatus.ACCEPTED);
             }
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
