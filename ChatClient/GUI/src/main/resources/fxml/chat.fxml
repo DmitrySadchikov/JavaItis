@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="350.0" prefWidth="600.0" style="-fx-background-color: #fbfbfb;" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itis.chat.controllers.ChatController">
+   <children>
+      <JFXButton fx:id="send" layoutX="509.0" layoutY="304.0" onAction="#sendClick" prefHeight="32.0" prefWidth="77.0" ripplerFill="#d4efff" style="-fx-background-color: #00a1ff;" text="Send" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXTextField fx:id="textField" focusColor="#52bcff" layoutX="14.0" layoutY="304.0" maxWidth="476.0" minWidth="217.0" prefHeight="32.0" prefWidth="476.0" unFocusColor="#009bff" />
+      <JFXButton fx:id="back" layoutX="14.0" layoutY="14.0" onAction="#backClick" prefHeight="32.0" prefWidth="40.0" ripplerFill="#83d2ff" text="&lt;" textFill="#009bff">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXButton>
+      <Text fx:id="chatName" layoutX="88.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chat name">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Pane fx:id="pane" layoutX="34.0" layoutY="75.0" prefHeight="209.0" prefWidth="538.0" />
+   </children>
+</AnchorPane>
