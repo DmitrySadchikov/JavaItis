@@ -1,48 +1,48 @@
-package ru.itis.chat.controllers;
+package ru.itis.chat.gui.controllers;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import ru.itis.chat.SceneManager;
+import ru.itis.chat.gui.SceneManager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class LoginController implements Initializable {
-
-    private Stage stage;
+public class ChatController implements Initializable{
 
     @FXML
-    private JFXTextField login;
+    private JFXButton send;
+
     @FXML
-    private JFXPasswordField password;
+    private JFXTextField textField;
+
     @FXML
-    private JFXButton signIn;
+    private JFXButton back;
+
     @FXML
-    private JFXButton signUp;
+    private Text chatName;
+
     @FXML
-    private Text error;
+    private Pane pane;
 
     private SceneManager sceneManager = SceneManager.getInstance();
 
-
     @FXML
-    void singInClick(ActionEvent event) {
+    void backClick(ActionEvent event) {
         sceneManager.showProfileScene("Username");
     }
 
     @FXML
-    void signUpClick(ActionEvent event) {
-        sceneManager.showRegistrationScene();
+    void sendClick(ActionEvent event) {
+
     }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
     }
 }

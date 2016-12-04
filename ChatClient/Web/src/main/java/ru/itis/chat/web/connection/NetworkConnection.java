@@ -1,4 +1,4 @@
-package ru.itis.chat.connection;
+package ru.itis.chat.web.connection;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;

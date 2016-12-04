@@ -1,4 +1,4 @@
-package ru.itis.chat;
+package ru.itis.chat.gui;
 
 import javafx.application.Application;
 import javafx.stage.Stage;

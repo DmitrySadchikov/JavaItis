@@ -1,4 +1,4 @@
-package ru.itis.chat.controllers;
+package ru.itis.chat.gui.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -8,7 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
-import ru.itis.chat.SceneManager;
+import ru.itis.chat.gui.SceneManager;
 
 import java.net.URL;
 import java.util.ResourceBundle;

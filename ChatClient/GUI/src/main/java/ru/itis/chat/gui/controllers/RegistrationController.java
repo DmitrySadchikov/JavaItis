@@ -1,4 +1,4 @@
-package ru.itis.chat.controllers;
+package ru.itis.chat.gui.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
@@ -11,7 +11,7 @@ import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.MultiValueMap;
-import ru.itis.chat.SceneManager;
+import ru.itis.chat.gui.SceneManager;
 import ru.itis.chat.models.CurrentUser;
 import ru.itis.chat.services.interfaces.RegistrationService;
 

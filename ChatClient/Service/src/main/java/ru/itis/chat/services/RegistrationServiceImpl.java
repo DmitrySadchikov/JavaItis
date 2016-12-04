@@ -5,7 +5,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
-import ru.itis.chat.connection.NetworkConnection;
+import ru.itis.chat.web.connection.NetworkConnection;
 import ru.itis.chat.dto.UserDto;
 import ru.itis.chat.models.CurrentUser;
 import ru.itis.chat.services.interfaces.RegistrationService;

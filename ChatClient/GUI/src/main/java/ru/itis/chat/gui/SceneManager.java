@@ -1,4 +1,4 @@
-package ru.itis.chat;
+package ru.itis.chat.gui;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
