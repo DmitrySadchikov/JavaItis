@@ -7,7 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import ru.itis.chat.gui.SceneManager;
+import ru.itis.chat.gui.scenes.SceneManager;
 
 import java.net.URL;
 import java.util.ResourceBundle;

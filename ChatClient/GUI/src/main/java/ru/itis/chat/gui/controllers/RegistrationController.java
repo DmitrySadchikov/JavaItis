@@ -8,15 +8,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.MultiValueMap;
-import ru.itis.chat.gui.SceneManager;
+import ru.itis.chat.gui.scenes.SceneManager;
 import ru.itis.chat.models.CurrentUser;
-import ru.itis.chat.services.interfaces.RegistrationService;
+import ru.itis.chat.services.RegistrationService;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegistrationController implements Initializable {
 
@@ -45,8 +46,7 @@ public class RegistrationController implements Initializable {
     @FXML
     private Text error;
 
-    @Autowired
-    RegistrationService registrationService;
+    private RegistrationService registrationService = RegistrationService.getInstance();
 
     private SceneManager sceneManager = SceneManager.getInstance();
 
@@ -57,6 +57,13 @@ public class RegistrationController implements Initializable {
 
     @FXML
     public void signUpClick(ActionEvent event) {
+
+        if(!login.getText().equals("") && !checkLogin()) {
+            login.setUnFocusColor(Paint.valueOf("#ff0000"));
+            login.setFocusColor(Paint.valueOf("#ff7d7f"));
+            error.setText("Login must contain at least three symbols, only Latin letters and symbols \".\" \"-\", \"_\"");
+            return;
+        }
         if(login.getText().equals("") || password.getText().equals("")
                 || firstName.getText().equals("") || lastName.getText().equals("")) {
             error.setText("All fields must be filled");
@@ -83,6 +90,12 @@ public class RegistrationController implements Initializable {
             error.setText("This login already exists");
         if(registrationService.httpStatusCodeIs5xxServerError())
             error.setText("Internal server error");
+    }
+
+    private boolean checkLogin() {
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9._-]{3,}$");
+        Matcher matcher = pattern.matcher(login.getText());
+        return matcher.matches();
     }
 
     @Override

@@ -1,9 +1,10 @@
-package ru.itis.chat.gui;
+package ru.itis.chat.gui.application;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import ru.itis.chat.gui.scenes.SceneManager;
 
-public class Main extends Application {
+public class StartUp extends Application {
 
     private SceneManager sceneManager = SceneManager.getInstance();
 

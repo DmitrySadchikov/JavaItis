@@ -8,7 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
-import ru.itis.chat.gui.SceneManager;
+import ru.itis.chat.gui.scenes.SceneManager;
+import ru.itis.chat.models.CurrentUser;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -66,6 +67,7 @@ public class ProfileController implements Initializable{
 
     @FXML
     public void logoutClick(ActionEvent event) {
+        CurrentUser.getInstance().clear();
         sceneManager.showLoginScene();
     }
 
@@ -81,6 +83,6 @@ public class ProfileController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        username.setText(CurrentUser.getInstance().toString());
     }
 }

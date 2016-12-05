@@ -1,4 +1,4 @@
-package ru.itis.chat.gui;
+package ru.itis.chat.gui.scenes;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,9 +22,7 @@ public class SceneManager {
         return instance;
     }
 
-    private SceneManager() {
-
-    }
+    private SceneManager() {}
 
     private void showScene(Stage primaryStage, String url, String title) {
         try {

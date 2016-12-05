@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class NetworkConnection {
 
-    public static final String targetURL = "http://localhost:8080";
+    public static final String targetURL = "http://localhost:8090";
 
     private RestTemplate restTemplate;
 

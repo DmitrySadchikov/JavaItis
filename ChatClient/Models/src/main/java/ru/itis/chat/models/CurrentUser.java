@@ -47,6 +47,13 @@ public class CurrentUser {
         this.token = token;
     }
 
+    public void clear() {
+        id = null;
+        lastName = null;
+        firstName = null;
+        token = null;
+    }
+
     @Override
     public String toString() {
         return lastName + " " + firstName;

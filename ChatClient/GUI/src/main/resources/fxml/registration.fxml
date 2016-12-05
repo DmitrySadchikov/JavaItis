@@ -35,6 +35,6 @@
             <Font size="18.0" />
          </font>
       </JFXButton>
-      <Text fx:id="error" fill="RED" layoutX="91.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="248.7294921875" />
+      <Text fx:id="error" fill="RED" layoutX="91.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="248.7294921875" />
    </children>
 </AnchorPane>
