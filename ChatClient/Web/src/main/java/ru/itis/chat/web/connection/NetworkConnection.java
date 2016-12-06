@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import ru.itis.chat.web.errorhandler.GoodResponseErrorHandler;
 
 import java.util.Map;
 
@@ -26,6 +27,7 @@ public class NetworkConnection {
 
     private NetworkConnection() {
         restTemplate = new RestTemplate();
+        restTemplate.setErrorHandler(new GoodResponseErrorHandler());
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
     }
 

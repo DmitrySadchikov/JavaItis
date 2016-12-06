@@ -6,6 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import ru.itis.chat.gui.scenes.SceneManager;
@@ -34,6 +36,9 @@ public class ProfileController implements Initializable{
     @FXML
     private Label nameLabel;
 
+    @FXML
+    private Pane pane;
+
 
     private SceneManager sceneManager = SceneManager.getInstance();
 
@@ -41,6 +46,8 @@ public class ProfileController implements Initializable{
     public void createChatClick(ActionEvent event) {
 
         if(nameLabel.isVisible() && nameField.isVisible() && create.isVisible()) {
+
+            pane.setEffect(new GaussianBlur(0));
             nameLabel.setVisible(false);
             nameField.setVisible(false);
             create.setVisible(false);
@@ -54,6 +61,7 @@ public class ProfileController implements Initializable{
             createChat.setText("Create chat");
         }
         else {
+            pane.setEffect(new GaussianBlur());
             nameLabel.setVisible(true);
             nameField.setVisible(true);
             create.setVisible(true);

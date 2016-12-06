@@ -46,6 +46,9 @@ public class RegistrationController implements Initializable {
     @FXML
     private Text error;
 
+    @FXML
+    private Text validation;
+
     private RegistrationService registrationService = RegistrationService.getInstance();
 
     private SceneManager sceneManager = SceneManager.getInstance();
@@ -58,12 +61,11 @@ public class RegistrationController implements Initializable {
     @FXML
     public void signUpClick(ActionEvent event) {
 
-        if(!login.getText().equals("") && !checkLogin()) {
-            login.setUnFocusColor(Paint.valueOf("#ff0000"));
-            login.setFocusColor(Paint.valueOf("#ff7d7f"));
-            error.setText("Login must contain at least three symbols, only Latin letters and symbols \".\" \"-\", \"_\"");
+        if(!checkLengthLogin()) {
+            error.setText("Login must contain at least four symbols");
             return;
         }
+
         if(login.getText().equals("") || password.getText().equals("")
                 || firstName.getText().equals("") || lastName.getText().equals("")) {
             error.setText("All fields must be filled");
@@ -92,10 +94,36 @@ public class RegistrationController implements Initializable {
             error.setText("Internal server error");
     }
 
-    private boolean checkLogin() {
-        Pattern pattern = Pattern.compile("^[a-zA-Z0-9._-]{3,}$");
+    private boolean check() {
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9._-]*$");
         Matcher matcher = pattern.matcher(login.getText());
         return matcher.matches();
+    }
+
+    private boolean checkLengthLogin() {
+        Pattern pattern = Pattern.compile("^.{4,}$");
+        Matcher matcher = pattern.matcher(login.getText());
+        return matcher.matches();
+    }
+
+    @FXML
+    private void checkLogin() {
+        if(!login.getText().equals("") && !check()) {
+            login.setUnFocusColor(Paint.valueOf("#ff0000"));
+            login.setFocusColor(Paint.valueOf("#ff7d7f"));
+            error.setText("Use Latin letters and symbols \n \".\" \"-\", \"_\"");
+        }
+        else {
+            login.setUnFocusColor(Paint.valueOf("#009bff"));
+            login.setFocusColor(Paint.valueOf("#52bcff"));
+            error.setText("");
+        }
+    }
+
+    @FXML
+    private void checkPassword() {
+        if(!password.getText().equals(""))
+            validation.setText("");
     }
 
     @Override

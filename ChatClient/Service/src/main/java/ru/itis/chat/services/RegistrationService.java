@@ -20,11 +20,13 @@ public class RegistrationService {
 
     public void postRegistration(@Nullable MultiValueMap<String, String> headers) {
         responseEntity = networkConnection.exchange("/registration", HttpMethod.POST, headers, UserDto.class);
-        CurrentUser currentUser = CurrentUser.getInstance();
-        currentUser.setId(responseEntity.getBody().getId());
-        currentUser.setLastName(responseEntity.getBody().getLastName());
-        currentUser.setFirstName(responseEntity.getBody().getFirstName());
-        currentUser.setToken(responseEntity.getHeaders().getFirst("token"));
+        if(responseEntity.hasBody()) {
+            CurrentUser currentUser = CurrentUser.getInstance();
+            currentUser.setId(responseEntity.getBody().getId());
+            currentUser.setLastName(responseEntity.getBody().getLastName());
+            currentUser.setFirstName(responseEntity.getBody().getFirstName());
+            currentUser.setToken(responseEntity.getHeaders().getFirst("token"));
+        }
     }
 
     public boolean httpStatusCodeIs2xxSuccessful() {
@@ -42,4 +44,5 @@ public class RegistrationService {
     public static RegistrationService getInstance() {
         return instance;
     }
+
 }

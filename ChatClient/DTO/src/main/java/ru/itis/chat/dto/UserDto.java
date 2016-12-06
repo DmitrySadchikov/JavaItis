@@ -6,9 +6,7 @@ public class UserDto {
     private String lastName;
     private String firstName;
 
-    private static UserDto instance = new UserDto();
-
-    private UserDto() {}
+    public UserDto() {}
 
     public Long getId() {
         return id;
@@ -34,7 +32,4 @@ public class UserDto {
         this.firstName = firstName;
     }
 
-    public static UserDto getInstance() {
-        return instance;
-    }
 }

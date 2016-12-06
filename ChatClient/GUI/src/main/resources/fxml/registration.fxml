@@ -25,8 +25,8 @@
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <JFXTextField fx:id="login" focusColor="#52bcff" layoutX="241.0" layoutY="77.0" maxWidth="217.0" minWidth="217.0" prefHeight="32.0" prefWidth="217.0" unFocusColor="#009bff" />
-      <JFXPasswordField fx:id="password" focusColor="#52bcff" layoutX="241.0" layoutY="116.0" maxWidth="217.0" minWidth="217.0" prefHeight="32.0" prefWidth="217.0" unFocusColor="#009bff" />
+      <JFXTextField fx:id="login" focusColor="#52bcff" layoutX="241.0" layoutY="77.0" maxWidth="217.0" minWidth="217.0" onKeyPressed="#checkLogin" prefHeight="32.0" prefWidth="217.0" unFocusColor="#009bff" />
+      <JFXPasswordField fx:id="password" focusColor="#52bcff" layoutX="241.0" layoutY="116.0" maxWidth="217.0" minWidth="217.0" onKeyPressed="#checkPassword" prefHeight="32.0" prefWidth="217.0" unFocusColor="#009bff" />
       <JFXPasswordField fx:id="confirm" focusColor="#52bcff" layoutX="241.0" layoutY="153.0" maxWidth="217.0" minWidth="217.0" prefHeight="32.0" prefWidth="217.0" unFocusColor="#009bff" />
       <JFXTextField fx:id="lastName" focusColor="#52bcff" layoutX="241.0" layoutY="192.0" maxWidth="217.0" minWidth="217.0" prefHeight="32.0" prefWidth="217.0" unFocusColor="#009bff" />
       <JFXTextField fx:id="firstName" focusColor="#52bcff" layoutX="241.0" layoutY="231.0" maxWidth="217.0" minWidth="217.0" prefHeight="32.0" prefWidth="217.0" unFocusColor="#009bff" />
@@ -36,5 +36,6 @@
          </font>
       </JFXButton>
       <Text fx:id="error" fill="RED" layoutX="91.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="248.7294921875" />
+      <Text fx:id="validation" fill="ORANGE" layoutX="500.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" />
    </children>
 </AnchorPane>

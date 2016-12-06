@@ -5,11 +5,13 @@ public class CurrentUser {
     private Long id;
     private String lastName;
     private String firstName;
-    private String token;
+    private Token token;
 
     private static CurrentUser instance = new CurrentUser();
 
-    private CurrentUser() {}
+    private CurrentUser() {
+        token = new Token();
+    }
 
     public static CurrentUser getInstance() {
         return instance;
@@ -40,11 +42,11 @@ public class CurrentUser {
     }
 
     public String getToken() {
-        return token;
+        return token.getToken();
     }
 
     public void setToken(String token) {
-        this.token = token;
+        this.token.setToken(token);
     }
 
     public void clear() {
