@@ -10,10 +10,18 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
+import ru.itis.chat.dto.ChatDto;
 import ru.itis.chat.gui.scenes.SceneManager;
 import ru.itis.chat.models.CurrentUser;
+import ru.itis.chat.services.ChatService;
 
+import java.io.*;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ProfileController implements Initializable{
@@ -39,8 +47,9 @@ public class ProfileController implements Initializable{
     @FXML
     private Pane pane;
 
-
     private SceneManager sceneManager = SceneManager.getInstance();
+
+    private ChatService chatService = ChatService.getInstance();
 
     @FXML
     public void createChatClick(ActionEvent event) {
@@ -61,7 +70,7 @@ public class ProfileController implements Initializable{
             createChat.setText("Create chat");
         }
         else {
-            pane.setEffect(new GaussianBlur());
+            pane.setEffect(new GaussianBlur(7));
             nameLabel.setVisible(true);
             nameField.setVisible(true);
             create.setVisible(true);
@@ -70,12 +79,16 @@ public class ProfileController implements Initializable{
             createChat.setRipplerFill(Paint.valueOf("#83d2ff"));
             createChat.setText("Cancel");
         }
-
     }
 
     @FXML
     public void logoutClick(ActionEvent event) {
         CurrentUser.getInstance().clear();
+        try (FileOutputStream fileOutputStream = new FileOutputStream("Service/src/main/resources/CurrentUser.ser")) {
+            fileOutputStream.write(("").getBytes());
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
         sceneManager.showLoginScene();
     }
 
@@ -86,11 +99,18 @@ public class ProfileController implements Initializable{
             nameField.setFocusColor(Paint.valueOf("#ff7d7f"));
             return;
         }
-        sceneManager.showChatScene(nameField.getText());
+        MultiValueMap<String, String> headers = new HttpHeaders();
+        headers.add("token", CurrentUser.getInstance().getToken());
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("name", nameField.getText());
+        ResponseEntity<ChatDto> responseEntity = chatService.postCreateChat(headers, parameters);
+        if(responseEntity.getStatusCode().is2xxSuccessful())
+            sceneManager.showChatScene(nameField.getText());
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         username.setText(CurrentUser.getInstance().toString());
     }
 }

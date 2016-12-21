@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import ru.itis.chat.gui.scenes.SceneManager;
+import ru.itis.chat.services.ChatService;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -30,10 +31,11 @@ public class ChatController implements Initializable{
     private Pane pane;
 
     private SceneManager sceneManager = SceneManager.getInstance();
+    private ChatService chatService = ChatService.getInstance();
 
     @FXML
     void backClick(ActionEvent event) {
-        sceneManager.showProfileScene("Username");
+        sceneManager.showProfileScene();
     }
 
     @FXML
@@ -44,5 +46,7 @@ public class ChatController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //ChatDto chat = chatService.getChat()
+        //chatName.setText();
     }
 }

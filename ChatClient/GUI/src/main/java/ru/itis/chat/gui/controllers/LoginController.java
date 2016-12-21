@@ -8,7 +8,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.springframework.http.HttpHeaders;
+import org.springframework.util.MultiValueMap;
 import ru.itis.chat.gui.scenes.SceneManager;
+import ru.itis.chat.services.AuthorizationService;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -30,10 +33,20 @@ public class LoginController implements Initializable {
 
     private SceneManager sceneManager = SceneManager.getInstance();
 
+    private AuthorizationService authorizationService = AuthorizationService.getInstance();
 
     @FXML
     void singInClick(ActionEvent event) {
-        sceneManager.showProfileScene("Username");
+        MultiValueMap<String, String> headers = new HttpHeaders();
+        headers.add("login", login.getText());
+        headers.add("password", password.getText());
+
+        authorizationService.postAuthorization("/login", headers);
+
+        if(authorizationService.httpStatusCodeIs2xxSuccessful())
+            sceneManager.showProfileScene();
+        if(authorizationService.httpStatusCodeIs4xxClientError())
+            error.setText("Incorrect login or password");
     }
 
     @FXML

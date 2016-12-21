@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ru.itis.chat.models.CurrentUser;
 
 import java.io.IOException;
 
@@ -36,7 +37,7 @@ public class SceneManager {
         }
     }
 
-    private  void showScene(String url, String title){
+    private void showScene(String url, String title){
         showScene(this.stage, url, title);
     }
 
@@ -48,8 +49,8 @@ public class SceneManager {
         showScene(REGISTRATION, "Registration");
     }
 
-    public void showProfileScene(String title) {
-        showScene(PROFILE, title);
+    public void showProfileScene() {
+        showScene(PROFILE, CurrentUser.getInstance().toString());
     }
 
     public void showChatScene(String title) {showScene(CHAT, title);}

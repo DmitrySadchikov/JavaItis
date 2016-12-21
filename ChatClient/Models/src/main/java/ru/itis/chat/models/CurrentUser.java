@@ -1,17 +1,20 @@
 package ru.itis.chat.models;
 
-public class CurrentUser {
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+import java.util.Map;
+
+public class CurrentUser implements Serializable {
 
     private Long id;
     private String lastName;
     private String firstName;
-    private Token token;
+    private String token;
+    private Map<Long, String> chats;
 
     private static CurrentUser instance = new CurrentUser();
 
-    private CurrentUser() {
-        token = new Token();
-    }
+    private CurrentUser() {}
 
     public static CurrentUser getInstance() {
         return instance;
@@ -42,11 +45,19 @@ public class CurrentUser {
     }
 
     public String getToken() {
-        return token.getToken();
+        return token;
     }
 
     public void setToken(String token) {
-        this.token.setToken(token);
+        this.token = token;
+    }
+
+    public Map<Long, String> getChats() {
+        return chats;
+    }
+
+    public void setChats(Map<Long, String> chats) {
+        this.chats = chats;
     }
 
     public void clear() {
@@ -56,8 +67,17 @@ public class CurrentUser {
         token = null;
     }
 
+    private Object readResolve() throws ObjectStreamException {
+        instance.setId(getId());
+        instance.setLastName(getLastName());
+        instance.setFirstName(getFirstName());
+        instance.setToken(getToken());
+        return instance;
+    }
+
     @Override
     public String toString() {
         return lastName + " " + firstName;
     }
+
 }
