@@ -55,6 +55,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByLogin(String login) {
+        verifyUserExistByLogin(login);
         return usersDao.findUserByLogin(login);
     }
 }

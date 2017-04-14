@@ -1,4 +1,4 @@
-package ru.itis.chat.web.controller;
+package ru.itis.chat.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -35,13 +35,13 @@ public class LoginController {
     public ResponseEntity<UserDto> postLogin(@RequestHeader("login") String login,
                                              @RequestHeader("password") String password) {
 
-        String hash = toHash(password);
-        User user = userService.findUserByLogin(login);
-
         try {
-            if (!hash.equals(userService.findPasswordByLogin(login))) {
+            String hash = toHash(password);
+            User user = userService.findUserByLogin(login);
+            if (!hash.equals(user.getPassword())) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            } else {
+            }
+            else {
 
                 Token token = new Token.Builder()
                         .user(user)

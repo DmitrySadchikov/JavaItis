@@ -18,18 +18,40 @@ public class ChatsDaoImpl implements ChatsDao {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     //language=SQL
+    private static final String SQL_FIND_CHAT_BY_ID = "SELECT c.*, u.first_name, u.last_name," +
+            "u.login, u.hash_password FROM chat c INNER JOIN" +
+            " chat_user u ON c.creator_fk = u.id WHERE c.id = :chat_id";
+    //language=SQL
     private static final String SQL_FIND_ALL_CHATS = "SELECT c.*, u.first_name, u.last_name," +
             "u.login, u.hash_password FROM chat c INNER JOIN" +
             " chat_user u ON c.creator_fk = u.id WHERE c.id IN (SELECT chat_fk FROM user_chat WHERE user_fk = :user_fk)";
     //language=SQL
     private static final String SQL_SAVE_CHAT = "INSERT INTO chat (name, creator_fk) " +
-            "VALUES (:name_, :creator)";
+            "VALUES (:name_, :creator) RETURNING id";
     //language=SQL
     private static final String SQL_FIND_ID_BY_NAME = "SELECT * FROM chat WHERE name = :name_";
 
     @Autowired
     public ChatsDaoImpl(DataSource dataSource) {
         namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+    }
+
+    @Override
+    public Chat find(Long chatId) {
+        Map<String, Long> namedParameters = new HashMap<>();
+        namedParameters.put("chat_id", chatId);
+        return namedParameterJdbcTemplate.queryForObject(SQL_FIND_CHAT_BY_ID, namedParameters,
+                (resultSet, i) -> new Chat.Builder()
+                        .id(resultSet.getLong("id"))
+                        .name(resultSet.getString("name"))
+                        .creator(new User.Builder()
+                                .id(resultSet.getLong("creator_fk"))
+                                .lastName(resultSet.getString("last_name"))
+                                .firstName(resultSet.getString("first_name"))
+                                .login(resultSet.getString("login"))
+                                .password(resultSet.getString("hash_password"))
+                                .build())
+                        .build());
     }
 
     @Override
@@ -55,7 +77,8 @@ public class ChatsDaoImpl implements ChatsDao {
         Map<String, Object> namedParameters = new HashMap<>();
         namedParameters.put("name_", chat.getName());
         namedParameters.put("creator", chat.getCreator().getId());
-        namedParameterJdbcTemplate.update(SQL_SAVE_CHAT, namedParameters);
+        Long id = namedParameterJdbcTemplate.queryForObject(SQL_SAVE_CHAT, namedParameters, Long.class);
+        chat.setId(id);
     }
 
     @Override

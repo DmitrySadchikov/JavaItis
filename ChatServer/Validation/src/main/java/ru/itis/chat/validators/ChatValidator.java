@@ -35,6 +35,7 @@ public class ChatValidator {
             throw new IllegalArgumentException();
     }
 
+    // TODO: это нужно убрать (зачем я вообще это сделал)
     public static void verifyChatExistByName(String name) {
         Map<String, String> namedParameters = new HashMap<>();
         namedParameters.put("name_", name);

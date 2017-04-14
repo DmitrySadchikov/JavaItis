@@ -30,11 +30,11 @@ public class UsersDaoImpl implements UsersDao {
             "last_name = :last_name, first_name = :first_name WHERE id = :id;";
     //language=SQL
     private static final String SQL_SAVE_USER = "INSERT INTO chat_user (login, hash_password, last_name, first_name)"
-            + " VALUES (:login_, :hash_password, :last_name, :first_name);";
+            + " VALUES (:login_, :hash_password, :last_name, :first_name) RETURNING id;";
     //language=SQL
     private static final String SQL_FIND_PASS_BY_LOGIN = "SELECT hash_password FROM chat_user WHERE login = :login_";
     //language=SQL
-    public static final String SQL_FIND_ID_BY_TOKEN = "SELECT user_fk FROM token WHERE token = :token";
+    private static final String SQL_FIND_ID_BY_TOKEN = "SELECT user_fk FROM token WHERE token = :token";
     //language=SQL
     private static final String SQL_FIND_USER_BY_TOKEN = "SELECT u.*, t.* FROM chat_user u " +
             "INNER JOIN token t ON u.id = t.user_fk WHERE t.token = :token";
@@ -105,7 +105,8 @@ public class UsersDaoImpl implements UsersDao {
         namedParameters.put("hash_password", user.getPassword());
         namedParameters.put("last_name", user.getLastName());
         namedParameters.put("first_name", user.getFirstName());
-        namedParameterJdbcTemplate.update(SQL_SAVE_USER, namedParameters);
+        Long id = namedParameterJdbcTemplate.queryForObject(SQL_SAVE_USER, namedParameters, Long.class);
+        user.setId(id);
     }
 
     public String findPasswordByLogin(String login) {

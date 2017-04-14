@@ -22,7 +22,7 @@ public class TokensDaoImpl implements TokensDao {
     }
 
     //language=SQl
-    private static final String SQL_SAVE_TOKEN = "INSERT INTO token (token, user_fk) VALUES (:token, :user_fk)";
+    private static final String SQL_SAVE_TOKEN = "INSERT INTO token (token, user_fk) VALUES (:token, :user_fk) RETURNING id";
     //language=SQL
     private static final String SQL_DELETE_TOKEN = "DELETE FROM token WHERE user_fk = :user_fk";
 
@@ -31,7 +31,8 @@ public class TokensDaoImpl implements TokensDao {
         Map<String, Object> namedParameters = new HashMap<>();
         namedParameters.put("token", token.getToken());
         namedParameters.put("user_fk", token.getUser().getId());
-        namedParameterJdbcTemplate.update(SQL_SAVE_TOKEN, namedParameters);
+        Long id = namedParameterJdbcTemplate.queryForObject(SQL_SAVE_TOKEN, namedParameters, Long.class);
+        token.setId(id);
     }
 
     @Override

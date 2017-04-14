@@ -1,6 +1,5 @@
 package ru.itis.chat.models;
 
-
 import java.util.Date;
 
 public class Message {
@@ -47,6 +46,10 @@ public class Message {
         this.text = builder.text;
         this.date = builder.date;
         this.sender = builder.sender;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getId() {

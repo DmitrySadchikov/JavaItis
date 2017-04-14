@@ -11,6 +11,7 @@ public class MessageToMessageDtoConverter implements Converter<Message, MessageD
     @Override
     public MessageDto convert(Message message) {
         return new MessageDto.Builder()
+                .id(message.getId())
                 .text(message.getText())
                 .lastName(message.getSender().getLastName())
                 .firstName(message.getSender().getFirstName())

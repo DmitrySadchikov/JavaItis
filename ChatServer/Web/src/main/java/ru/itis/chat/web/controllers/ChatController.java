@@ -1,4 +1,4 @@
-package ru.itis.chat.web.controller;
+package ru.itis.chat.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,7 +42,7 @@ public class ChatController {
 
     @RequestMapping(value = "/chats", method = RequestMethod.POST)
     public ResponseEntity<ChatDto> createChat(@RequestHeader("token") String token,
-                                              @RequestParam("name") String name) {
+                                              @RequestHeader("name") String name) {
 
         User user = userService.findUserByToken(token);
         List<User> users = new ArrayList<>();
@@ -53,7 +53,6 @@ public class ChatController {
                 .creator(user)
                 .build();
         chatService.save(chat);
-        chat.setId(chatService.findIdByName(chat.getName()));
         utilService.saveUserInChat(chat.getId(), user.getId());
         return new ResponseEntity<>(chatConverter.convert(chat), HttpStatus.CREATED);
     }
@@ -64,5 +63,10 @@ public class ChatController {
         utilService.saveUserInChat(chatId, userId);
         return new ResponseEntity<>(userConverter.convert(userService.findUserById(userId)),
                 HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(value = "/chats/{chatId}", method = RequestMethod.GET)
+    public ResponseEntity<ChatDto> getChat(@PathVariable("chatId") Long chatId) {
+        return new ResponseEntity<>(chatConverter.convert(chatService.find(chatId)), HttpStatus.OK);
     }
 }

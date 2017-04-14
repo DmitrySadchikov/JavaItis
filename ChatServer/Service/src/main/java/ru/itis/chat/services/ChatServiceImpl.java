@@ -25,6 +25,18 @@ public class ChatServiceImpl implements ChatService {
     private UsersDao usersDao;
 
     @Override
+    public Chat find(Long chatId) {
+        Chat chat = chatsDao.find(chatId);
+        return new Chat.Builder()
+                .id(chat.getId())
+                .name(chat.getName())
+                .creator(chat.getCreator())
+                .messages(messagesDao.findAll(chatId))
+                .users(usersDao.findAllUsersInChat(chatId))
+                .build();
+    }
+
+    @Override
     public List<Chat> findAll(String token) {
         User user = usersDao.findUserByToken(token);
         List<Chat> chats = chatsDao.findAll(user.getId());
@@ -33,6 +45,7 @@ public class ChatServiceImpl implements ChatService {
             result.add(new Chat.Builder()
                     .id(chat.getId())
                     .name(chat.getName())
+                    .creator(chat.getCreator())
                     .messages(messagesDao.findAll(chat.getId()))
                     .users(usersDao.findAllUsersInChat(chat.getId()))
                     .build());

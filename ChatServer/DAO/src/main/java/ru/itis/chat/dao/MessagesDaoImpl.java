@@ -8,8 +8,6 @@ import ru.itis.chat.models.Message;
 import ru.itis.chat.models.User;
 
 import javax.sql.DataSource;
-import java.sql.Time;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +28,9 @@ public class MessagesDaoImpl implements MessagesDao {
             "ON m.user_fk = u.id WHERE m.id > (SELECT last_message_id FROM last_message " +
             "WHERE user_fk = :user_fk AND chat_fk = :chat_fk LIMIT 1)";
     //language=SQL
-    private static final String SQL_SAVE_MESSAGE = "INSERT INTO message (text_message, time_message, " +
-            "date_message, user_fk, chat_fk) VALUES (:text_message, :time_message, :date_message, " +
-            ":user_fk, :chat_fk)";
+    private static final String SQL_SAVE_MESSAGE = "INSERT INTO message (text_message," +
+            " user_fk, chat_fk) VALUES (:text_message, " +
+            ":user_fk, :chat_fk) RETURNING id";
     //language=SQL
     private static final String SQL_DELETE_MESSAGE = "DELETE FROM message WHERE user_fk = :user_fk" +
             " AND chat_fk = :chat_fk";
@@ -51,7 +49,8 @@ public class MessagesDaoImpl implements MessagesDao {
                 (resultSet, i) -> new Message.Builder()
                         .id(resultSet.getLong("id"))
                         .text(resultSet.getString("text_message"))
-                        .date(new Date(resultSet.getDate("time_message").getTime()))
+                        .date(resultSet.getTimestamp("date_message"))
+                        //.date(new java.util.Date(resultSet.getDate("time_message").getTime()))
                         .sender(new User.Builder()
                                 .id(resultSet.getLong("user_fk"))
                                 .lastName(resultSet.getString("last_name"))
@@ -71,7 +70,8 @@ public class MessagesDaoImpl implements MessagesDao {
                 (resultSet, i) -> new Message.Builder()
                         .id(resultSet.getLong("id"))
                         .text(resultSet.getString("text_message"))
-                        .date(new Date(resultSet.getDate("time_message").getTime()))
+                        //.date(new Date(resultSet.getDate("time_message").getTime()))
+                        .date(resultSet.getTimestamp("date_message"))
                         .sender(new User.Builder()
                                 .id(resultSet.getLong("user_fk"))
                                 .lastName(resultSet.getString("last_name"))
@@ -86,11 +86,10 @@ public class MessagesDaoImpl implements MessagesDao {
     public void save(Message message, Long chatId) {
         Map<String, Object> namedParameters = new HashMap<>();
         namedParameters.put("text_message", message.getText());
-        namedParameters.put("time_message", new Time(message.getDate().getTime()));
-        namedParameters.put("date_message", new java.sql.Date(message.getDate().getTime()));
         namedParameters.put("user_fk", message.getSender().getId());
         namedParameters.put("chat_fk", chatId);
-        namedParameterJdbcTemplate.update(SQL_SAVE_MESSAGE, namedParameters);
+        Long id = namedParameterJdbcTemplate.queryForObject(SQL_SAVE_MESSAGE, namedParameters, Long.class);
+        message.setId(id);
     }
 
     @Override

@@ -16,13 +16,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public void saveToken(Token token) {
-        verifyTokenExistByLogin(token.getUser().getLogin());
+        verifyTokenExistByLogin(token.getToken(), token.getUser().getLogin());
         tokensDao.save(token);
-    }
-
-    @Override
-    public void deleteToken(Token token) {
-        verifyTokenExistByLogin(token.getUser().getLogin());
-        this.tokensDao.delete(token);
     }
 }

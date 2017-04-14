@@ -1,4 +1,4 @@
-package ru.itis.chat.web.controller;
+package ru.itis.chat.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

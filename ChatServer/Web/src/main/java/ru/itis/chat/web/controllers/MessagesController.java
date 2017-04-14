@@ -1,4 +1,4 @@
-package ru.itis.chat.web.controller;
+package ru.itis.chat.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,13 +28,13 @@ public class MessagesController {
 
     @RequestMapping(value = "/chats/{chatId}/messages", method = RequestMethod.POST)
     public ResponseEntity<MessageDto> sendMessage(@RequestHeader("token") String token,
-                                                  @RequestParam("text") String text,
+                                                  @RequestHeader("text") String text,
                                                   @PathVariable("chatId") Long chatId) {
         Message message = new Message.Builder()
                 .text(text)
                 .sender(userService.findUserByToken(token))
                 .build();
-        messageService.save(message, chatId);
+            messageService.save(message, chatId);
         return new ResponseEntity<>(messageConverter.convert(message), HttpStatus.CREATED);
     }
 
