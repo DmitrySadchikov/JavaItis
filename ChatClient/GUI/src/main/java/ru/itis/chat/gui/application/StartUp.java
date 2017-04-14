@@ -17,12 +17,10 @@ public class StartUp extends Application {
     public void start(Stage primaryStage) throws Exception {
         sceneManager.setStage(primaryStage);
 
-        CurrentUser currentUser;
-
         File out = new File("Service/src/main/resources/CurrentUser.ser");
         if(out.length() != 0) {
             ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(out));
-            currentUser = (CurrentUser) inputStream.readObject();
+            CurrentUser currentUser = (CurrentUser) inputStream.readObject();
             inputStream.close();
             sceneManager.showProfileScene();
         }

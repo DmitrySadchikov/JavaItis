@@ -25,20 +25,16 @@ public class SceneManager {
 
     private SceneManager() {}
 
-    private void showScene(Stage primaryStage, String url, String title) {
+    private void showScene(String url, String title) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource(url));
-            primaryStage.setTitle(title);
+            stage.setTitle(title);
             Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
-            primaryStage.show();
+            stage.setScene(scene);
+            stage.show();
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
-    }
-
-    private void showScene(String url, String title){
-        showScene(this.stage, url, title);
     }
 
     public void showLoginScene() {

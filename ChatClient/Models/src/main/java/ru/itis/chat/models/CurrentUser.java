@@ -1,8 +1,9 @@
 package ru.itis.chat.models;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
-import java.util.Map;
 
 public class CurrentUser implements Serializable {
 
@@ -10,11 +11,14 @@ public class CurrentUser implements Serializable {
     private String lastName;
     private String firstName;
     private String token;
-    private Map<Long, String> chats;
+    private Long idChat;
+    //private Map<Long, String> chats;
 
     private static CurrentUser instance = new CurrentUser();
 
-    private CurrentUser() {}
+    private CurrentUser() {
+        //chats = new HashMap<>(50);
+    }
 
     public static CurrentUser getInstance() {
         return instance;
@@ -52,7 +56,15 @@ public class CurrentUser implements Serializable {
         this.token = token;
     }
 
-    public Map<Long, String> getChats() {
+    public Long getIdChat() {
+        return idChat;
+    }
+
+    public void setIdChat(Long idChat) {
+        this.idChat = idChat;
+    }
+
+    /*public Map<Long, String> getChats() {
         return chats;
     }
 
@@ -60,11 +72,22 @@ public class CurrentUser implements Serializable {
         this.chats = chats;
     }
 
+    public void addChat(Long id, String name) {
+        chats.put(id, name);
+    }*/
+
     public void clear() {
+        try (FileOutputStream fileOutputStream = new FileOutputStream("Service/src/main/resources/CurrentUser.ser")) {
+            fileOutputStream.write(("").getBytes());
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
         id = null;
         lastName = null;
         firstName = null;
         token = null;
+        idChat = null;
+        //chats = null;
     }
 
     private Object readResolve() throws ObjectStreamException {
@@ -72,6 +95,8 @@ public class CurrentUser implements Serializable {
         instance.setLastName(getLastName());
         instance.setFirstName(getFirstName());
         instance.setToken(getToken());
+        //instance.setChats(getChats());
+        instance.setIdChat(getIdChat());
         return instance;
     }
 
